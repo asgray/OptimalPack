@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+    <table>
+        <tr>
+            <th>Number</th>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Weight (g)</th>
+            <th>Calories per Serving</th>
+            <th> Protein (g) </th>
+            <th>Serving per Package</th>
+            <th>Stove Required</th>
+        </tr>
+        {% for r in result %}
+        <tr>
+            <td>{{ r.idfood }}</td>
+            <td>{{ r.name }}</td>
+            <td>{{ r.brand }}</td>
+            <td>{{ r.weight }}</td>
+            <td>{{ r.calories }}</td>
+            <td>{{ r.protein }}</td>
+            <td>{{ r.servings }}</td>
+            {% if r. cooked%}
+            <td>Yes</td>
+            {% else %}
+            <td>No</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+   </table>
+{% endblock %}

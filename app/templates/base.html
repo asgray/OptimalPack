@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+    <head>
+        <title>
+            
+        </title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+   <body>
+       <div>
+            HikePlanner 
+            <a href = '/index'> Home </a>
+            <a href = '/food'> Food </a>
+            <a href = '/meal'> Meals </a>
+            <a href = '/meal_plan'> Meal Plans </a>
+       </div>
+       <hr>
+       {% block content %} {% endblock %}
+   </body>
+</html>
