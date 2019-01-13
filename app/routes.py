@@ -1,5 +1,5 @@
 from app import app, database
-from flask import render_template
+from flask import render_template, url_for
  
 @app.route('/')
 @app.route('/index')
@@ -14,6 +14,15 @@ def food():
         return fds
     res = db_query()
     return render_template('food.html', result = res)
+
+@app.route('/meals')
+def meals():
+    def db_query():
+        db = database.Database()
+        mls = db.list_meals()
+        return mls
+    res = db_query()
+    return render_template('meals.html', result = res)
 
 if __name__ == '__main__':
     app.run(debug = True)

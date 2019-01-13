@@ -9,10 +9,9 @@
    <body>
        <div>
             HikePlanner 
-            <a href = '/index'> Home </a>
-            <a href = '/food'> Food </a>
-            <a href = '/meal'> Meals </a>
-            <a href = '/meal_plan'> Meal Plans </a>
+            <a href = "{{ url_for('index') }}" > Home </a>
+            <a href = "{{ url_for('food') }}"> Food </a>
+            <a href = "{{ url_for('meals') }}"> Meals </a>
        </div>
        <hr>
        {% block content %} {% endblock %}

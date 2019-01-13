@@ -15,3 +15,8 @@ class Database:
         self.cur.execute("SELECT * FROM food")
         result = self.cur.fetchall()
         return result
+
+    def list_meals(self):
+        self.cur.execute("select name from meal group by name")
+        result = self.cur.fetchall()
+        return result
