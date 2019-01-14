@@ -4,7 +4,7 @@ class Database:
     def __init__(self):
         host = "127.0.0.1"
         user = "root"
-        password = "root"
+        password = "password"
         db = "hikeplanner"
  
         self.con = pymysql.connect(host=host, user=user, password=password, db=db, 
@@ -17,6 +17,7 @@ class Database:
         return result
 
     def list_meals(self):
-        self.cur.execute("select name from meal group by name")
+        self.cur.execute("select name, quantity  from meal group by name")
         result = self.cur.fetchall()
+        print(result)
         return result
