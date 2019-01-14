@@ -18,14 +18,14 @@
 
   /*** @jsx React.DOM */
 
-  var realPython = React.createClass({
+  var quantityDisplay = React.createClass({
     render: function() {
-      return ( <h2> Stuff {this.props.quant} </h2>);
+      return ( <h2> Quantity: {this.props.quant} </h2>);
     }
   });
 
   ReactDOM.render(
-    React.createElement(realPython, null),
+    React.createElement(quantityDisplay, null),
     document.getElementById('content')
   );
 
