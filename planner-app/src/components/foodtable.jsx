@@ -8,12 +8,13 @@ class FoodTable extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      items: null
+      items: null,
+      route: this.props.route
     };
   }
 
   componentDidMount() {
-    fetch("http://localhost:5000/food")
+    fetch("http://localhost:5000/" + this.state.route)
       .then(res => res.json())
       .then(
         result => {
@@ -50,6 +51,7 @@ class FoodTable extends Component {
               <th>Weight (g)</th>
               <th>Calories per Serving</th>
               <th> Protein (g) </th>
+              <th> Servings per Package </th>
               <th> Cooked? </th>
             </tr>
           </thead>
@@ -63,23 +65,5 @@ class FoodTable extends Component {
     }
   }
 }
-/**
-  render() {
-    return (
-      <table>
-        <tr>
-          <th>Number</th>
-          <th>Name</th>
-          <th>Brand</th>
-          <th>Weight (g)</th>
-          <th>Calories per Serving</th>
-          <th> Protein (g) </th>
-          <th>Serving per Package</th>
-          <th>Stove Required</th>
-        </tr>
-      </table>
-    );
-  }
-}
- */
+
 export default FoodTable;

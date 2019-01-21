@@ -3,14 +3,12 @@ import React, { Component } from "react";
 class Food extends Component {
   render() {
     const {
-      idfood,
       name,
       brand,
       weight,
       calories,
       protein,
-      servings,
-      cooked
+      servings
     } = this.props.food;
     return (
       <tr>
@@ -19,6 +17,7 @@ class Food extends Component {
         <td>{weight}</td>
         <td>{calories}</td>
         <td>{protein}</td>
+        <td>{servings}</td>
         <td>{this.stoveRequired()}</td>
       </tr>
     );

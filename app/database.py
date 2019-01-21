@@ -13,11 +13,16 @@ class Database:
  
     def list_food(self):
         self.cur.execute("SELECT * FROM food")
-        result = self.cur.fetchall()
-        return result
+        return self.cur.fetchall()
 
     def list_meals(self):
-        self.cur.execute("select name, quantity  from meal group by name")
-        result = self.cur.fetchall()
-        print(result)
-        return result
+        self.cur.execute("select name from meal group by name")
+        return self.cur.fetchall()
+    
+    def list_ingredients(self, mealname):
+        self.cur.execute(
+            "select quantity, food.* from meal " 
+            "join food on food_idfood = food.idfood " 
+            "where meal.name = %s", mealname
+            )
+        return self.cur.fetchall()

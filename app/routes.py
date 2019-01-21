@@ -1,33 +1,25 @@
 from app import app, database
-from flask import render_template, url_for, jsonify, json
+from flask import render_template, url_for, jsonify, request
 
-
+'''
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template('index.html')
-
+'''
+db = database.Database()
 
 @app.route('/food')
 def food():
-    def db_query():
-        db = database.Database()
-        fds = db.list_food()
-        return fds
-    return jsonify(db_query())
-    
-    # print(type(jres))
-    # return render_template('food.html', result=res)
+    return jsonify(db.list_food())
 
-
-@app.route('/meals')
+@app.route('/meallist')
 def meals():
-    def db_query():
-        db = database.Database()
-        mls = db.list_meals()
-        return mls
-    res = db_query()
-    return render_template('meals.html', result=res)
+    return jsonify(db.list_meals())
+
+@app.route('/meal_ingredients/<mealname>', methods=["GET"])
+def meal_ingredients(mealname):
+    return jsonify(db.list_ingredients(mealname))
 
 
 if __name__ == '__main__':
