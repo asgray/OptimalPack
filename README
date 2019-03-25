@@ -1,0 +1,3 @@
+Extension of Database final Project:
+A trip planner database was implemented in MySQL, with a command-line controller app implemented in python. 
+This repository contains those files, as well as a React-based frontend under construction
