@@ -1,12 +1,6 @@
 from app import app, database
 from flask import render_template, url_for, jsonify, request
 
-'''
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template('index.html')
-'''
 db = database.Database()
 
 @app.route('/food')
