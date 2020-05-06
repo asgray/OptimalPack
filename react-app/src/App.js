@@ -1,12 +1,11 @@
 import React from "react";
-import FoodTable from "./components/foodtable";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
+import Table from "./components/table";
 
 function App() {
   return (
     <div className="App">
-      <FoodTable />
       {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -20,8 +19,11 @@ function App() {
         >
           Learn React
         </a>
-        <div className='foodtable'>yar</div>
+
       </header> */}
+      <Table url={`/meallist`} id={null} />
+      <Table url={`/food`} id="idfood" />
+      {/* <Table url={`/meal_ingredients/Tuna_Mac`} /> */}
     </div>
   );
 }
