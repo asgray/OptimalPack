@@ -23,7 +23,8 @@ class Database:
 
     def list_meals(self):
         self.cur.execute("select name from meal group by name")
-        return self.cur.fetchall()
+        field_names = [i[0] for i in self.cur.description]
+        return {'headers': field_names, 'data': self.cur.fetchall()}
     
     def list_ingredients(self, mealname):
         self.cur.execute(
