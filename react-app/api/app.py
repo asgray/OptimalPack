@@ -3,24 +3,24 @@ from flask_cors import CORS
 import database
 from flask import jsonify, request
 
-api = Flask(__name__)
-CORS(api)
+app = Flask(__name__)
+CORS(app)
 
 db = database.Database()
 
-@api.route('/food')
+@app.route('/food')
 def food():
     return jsonify(db.list_food())
 
-@api.route('/meallist')
+@app.route('/meallist')
 def meals():
     return jsonify(db.list_meals())
 
-@api.route('/meal_ingredients/<mealname>', methods=["GET"])
+@app.route('/meal_ingredients/<mealname>', methods=["GET"])
 def meal_ingredients(mealname):
     return jsonify(db.list_ingredients(mealname))
 
 
 if __name__ == '__main__':
-    api.run(debug=True)
+    app.run(debug=True)
 # from api import routes

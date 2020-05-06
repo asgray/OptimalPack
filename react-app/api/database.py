@@ -1,3 +1,8 @@
+# from sqlalchemy import create_engine
+
+# engine = create_engine('mysql+pymysql://root:password@127.0.0.1/hikeplanner', pool_recycle=3600)
+# connection = engine.connect()
+# print(connection)
 import pymysql
 
 class Database:
@@ -13,7 +18,8 @@ class Database:
  
     def list_food(self):
         self.cur.execute("SELECT * FROM food")
-        return self.cur.fetchall()
+        field_names = [i[0] for i in self.cur.description]
+        return {'headers': field_names, 'data': self.cur.fetchall()}
 
     def list_meals(self):
         self.cur.execute("select name from meal group by name")
