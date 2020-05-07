@@ -21,9 +21,8 @@ function App() {
         </a>
 
       </header> */}
-      <Table url={`/meallist`} id={null} />
+      {/* <Table url={`/meallist`} id={null} /> */}
       <Table url={`/food`} id="idfood" />
-      {/* <Table url={`/meal_ingredients/Tuna_Mac`} /> */}
     </div>
   );
 }

@@ -1,31 +1,33 @@
 import React from "react";
 
 function TableRow(props) {
+  // data contains the data for each row as a dictionary, id is the table index column
+  // colorder is a list of column headers in table order
+  const { data, id, colorder } = props;
   // find the element that will serve as the row key
-  let key = props.info[props.id];
+  let key = data[id];
   return (
     // assign row key
     <tr key={key}>
-      {props.colorder.map((col) => {
+      {colorder.map((col) => {
         // add elements to the row in column order
-
-        let content;
         // exclude id column
-        if (col !== props.id) {
+        if (col !== id) {
+          let content;
           // change content if cooked or not
           if (col === "cooked") {
-            if (props.info[col] === 1) {
+            if (data[col] === 1) {
               content = "yes";
             } else {
               content = "no";
             }
           } else {
             // otherwise render item data
-            content = props.info[col];
+            content = data[col];
           }
-          return (
-            <td key={col.toString() + props.info[col].toString()}>{content}</td>
-          );
+          return <td key={col.toString() + data[col].toString()}>{content}</td>;
+        } else {
+          return null;
         }
       })}
     </tr>
