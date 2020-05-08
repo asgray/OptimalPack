@@ -3,9 +3,8 @@ import TableRow from "./tablerow";
 import logo from "./logo.svg";
 import { useHTTP } from "../hooks/http";
 
-function Table(props) {
+function Table({ url, id }) {
   // url is the route to fetch, id is the column to use as the table index
-  const { url, id } = props;
   // collect data from the API
   const [isLoaded, res] = useHTTP(url);
   var sql = {};
@@ -21,7 +20,7 @@ function Table(props) {
 
   function renderTable() {
     return (
-      <div>
+      <>
         <h1>{url}</h1>
         <table>
           <thead>
@@ -58,7 +57,7 @@ function Table(props) {
             }
           </tbody>
         </table>
-      </div>
+      </>
     );
   }
 

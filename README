@@ -2,8 +2,13 @@ Extension of Database final Project:
 A trip planner database was implemented in MySQL, with a command-line controller app implemented in python. 
 This repository contains those files, as well as a React-based frontend under construction
 
+yarn start     -> runs react front-end
+yarn start-api -> runs flask api
+
+
 TODO:
- - refactor api to feed into context instead of the individual tables
+ * implement react-tables table
+ ? refactor api to feed into context instead of the individual tables
  - handle HTTP errors
  - handle DB fetch errors
 

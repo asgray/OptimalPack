@@ -1,9 +1,8 @@
 import React from "react";
 
-function TableRow(props) {
+function TableRow({ data, id, colorder }) {
   // data contains the data for each row as a dictionary, id is the table index column
   // colorder is a list of column headers in table order
-  const { data, id, colorder } = props;
   // find the element that will serve as the row key
   let key = data[id];
   return (
