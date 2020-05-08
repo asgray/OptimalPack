@@ -6,7 +6,6 @@ function App() {
   return (
     <div className="App">
       <TableWrapper url={`/food`} />
-      <TableWrapper url={`/meallist`} />
     </div>
   );
 }

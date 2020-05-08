@@ -1,6 +1,5 @@
 import React from "react";
 import Table from "./table";
-
 import { useHTTP } from "../hooks/http";
 import Loading from "./loading";
 

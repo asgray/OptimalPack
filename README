@@ -7,10 +7,9 @@ yarn start-api -> runs flask api
 
 
 TODO:
- * implement react-tables table
  ? refactor api to feed into context instead of the individual tables
  - handle HTTP errors
  - handle DB fetch errors
+ - personalize 
 
 PROBLEMS:
- - useHTTP causes missing dependency warning
