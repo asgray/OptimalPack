@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 Old_Implementation/api/venv
+
+.vscode
