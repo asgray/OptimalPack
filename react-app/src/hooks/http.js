@@ -10,6 +10,6 @@ export const useHTTP = (url) => {
       setFetchedData(res);
       setLoaded(true);
     });
-  }, []);
+  }, [url]);
   return [isLoaded, fetchedData];
 };

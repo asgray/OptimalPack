@@ -1,30 +1,30 @@
 import React from "react";
-// import logo from "./logo.svg";
 import "./App.css";
-import Table from "./components/table";
+import TableWrapper from "./components/tablewrapper";
 
 function App() {
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-
-      </header> */}
-      {/* <Table url={`/meallist`} id={null} /> */}
-      <Table url={`/food`} id="idfood" />
+      <TableWrapper url={`/food`} />
+      <TableWrapper url={`/meallist`} />
     </div>
   );
 }
 
 export default App;
+
+/* <header className="App-header">
+  <img src={logo} className="App-logo" alt="logo" />
+  <p>
+    Edit <code>src/App.js</code> and save to reload.
+  </p>
+  <a
+    className="App-link"
+    href="https://reactjs.org"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Learn React
+  </a>
+
+</header> */

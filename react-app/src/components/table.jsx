@@ -1,70 +1,52 @@
-import React from "react";
-import TableRow from "./tablerow";
-import logo from "./logo.svg";
-import { useHTTP } from "../hooks/http";
+import React, { useMemo } from "react";
+import { useTable } from "react-table";
 
-function Table({ url, id }) {
-  // url is the route to fetch, id is the column to use as the table index
-  // collect data from the API
-  const [isLoaded, res] = useHTTP(url);
-  var sql = {};
-  if (isLoaded) {
-    const headers = res.data.headers;
-    const data = res.data.data;
-    sql = { headers, data };
-  }
+function Table({ headers, info }) {
+  // React-Table requires memoized data for inputs
+  var data = useMemo(() => info, [info]);
+  var columns = useMemo(
+    () =>
+      headers.map((col) => ({
+        Header: col.charAt(0).toUpperCase() + col.slice(1),
+        accessor: col,
+      })),
+    [headers]
+  );
+  // calling table
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({ columns, data });
 
-  function renderWaiting() {
-    return <img src={logo} className="App-logo" alt="logo" />;
-  }
-
-  function renderTable() {
-    return (
-      <>
-        <h1>{url}</h1>
-        <table>
-          <thead>
-            <tr key={url + "head"}>
-              {/* Render column headers */}
-              {sql.headers.map((inst) => {
-                //   exclude indexing value
-                if (inst !== id) {
-                  return (
-                    <th key={inst}>
-                      {/* capitalize values in header */}
-                      {inst.charAt(0).toUpperCase() + inst.slice(1)}
-                    </th>
-                  );
-                } else {
-                  return null;
-                }
+  //   boilerplate React-Table Render
+  return (
+    <table {...getTableProps()}>
+      <thead>
+        {headerGroups.map((headerGroup) => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map((row) => {
+          prepareRow(row);
+          return (
+            <tr {...row.getRowProps()}>
+              {row.cells.map((cell) => {
+                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
               })}
             </tr>
-          </thead>
-          <tbody>
-            {
-              // render each row as it's own element
-              sql.data.map((inst) => {
-                return (
-                  <TableRow
-                    key={id + inst[id]}
-                    data={inst}
-                    id={id}
-                    colorder={sql.headers}
-                  />
-                );
-              })
-            }
-          </tbody>
-        </table>
-      </>
-    );
-  }
-
-  if (isLoaded) {
-    return renderTable();
-  } else {
-    return renderWaiting();
-  }
+          );
+        })}
+      </tbody>
+    </table>
+  );
 }
-export default React.memo(Table);
+
+export default Table;
