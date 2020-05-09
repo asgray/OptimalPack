@@ -1,11 +1,11 @@
-import React from "react";
 import "./App.css";
+import React from "react";
 import TableWrapper from "./components/tablewrapper";
 
 function App() {
   return (
     <div className="App">
-      <TableWrapper url={`/food`} />
+      <TableWrapper type={"food"} />
     </div>
   );
 }

@@ -7,7 +7,12 @@ yarn start-api -> runs flask api
 
 
 TODO:
- ? refactor api to feed into context instead of the individual tables
+ - Finish DB CRUD operations
+    - Create:   x
+    - Read:     +
+    - Update:   x
+    - Delete:   x
+ - test table with more requests
  - handle HTTP errors
  - handle DB fetch errors
  - personalize 

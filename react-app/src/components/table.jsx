@@ -1,7 +1,12 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useContext } from "react";
 import { useTable } from "react-table";
+import TableProvider from "../context/tableContext";
 
-function Table({ headers, info }) {
+function Table({ info, headers, type }) {
+  // lookup specifications of table type from context
+  const context = useContext(TableProvider);
+  const { title, hiddenCols } = context.tableSpecs[type];
+
   // React-Table requires memoized data for inputs
   var data = useMemo(() => info, [info]);
   var columns = useMemo(
@@ -12,6 +17,13 @@ function Table({ headers, info }) {
       })),
     [headers]
   );
+  var initialState = useMemo(
+    () => ({
+      hiddenColumns: hiddenCols,
+    }),
+    [hiddenCols]
+  );
+
   // calling table
   const {
     getTableProps,
@@ -19,33 +31,38 @@ function Table({ headers, info }) {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data });
+  } = useTable({ columns, data, initialState });
 
-  //   boilerplate React-Table Render
+  // boilerplate React-Table Render
   return (
-    <table {...getTableProps()}>
-      <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-              })}
+    <>
+      <h1>{title}</h1>
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              ))}
             </tr>
-          );
-        })}
-      </tbody>
-    </table>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 }
 
