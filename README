@@ -7,6 +7,8 @@ yarn start-api -> runs flask api
 
 
 TODO:
+* fix input forms, factor out the input markup into separate component and have it pass
+data up to rowAdder
  - Finish DB CRUD operations
     - Create:   x
     - Read:     +
@@ -18,3 +20,4 @@ TODO:
  - personalize 
 
 PROBLEMS:
+sort by cooked image? might need to add column instead of replacing data with img

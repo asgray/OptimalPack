@@ -37,9 +37,11 @@
   }
 }
 
-img {
+img,
+input[type="image"] {
   max-height: 25px;
 }
 table {
   margin: 0 auto;
+  border: black solid 3px;
 }

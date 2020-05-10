@@ -1,5 +1,5 @@
 import React from "react";
-import water from "./water.jpg";
+import water from "../assets/water.jpg";
 
 function UnCookedImg() {
   return <img src={water} alt="" />;
