@@ -3,13 +3,13 @@ import TableProvider from "../context/tableContext";
 import Table from "./table";
 import { useGET } from "../hooks/useGet";
 import Loading from "./loading";
-import RowAdder from "./rowadder";
 
-// Function collects API data and passes it to React-Table in Table component
+// Component fetches and formats data from an API,
+// Then passes formatted data to Table component for display
 function TableWrapper({ type }) {
   // lookup specifications of table type from context
   const context = useContext(TableProvider);
-  const { url, replace, newCols } = context.tableSpecs[type];
+  const { url, replace, newCols, title } = context[type];
   // collect data from the API
   const [isLoaded, res] = useGET(url);
   var sql = {};
@@ -46,8 +46,8 @@ function TableWrapper({ type }) {
 
     return (
       <>
+        <h1>{title}</h1>
         <Table headers={sql.headers} info={sql.data} type={type} />
-        <RowAdder type={type} />
       </>
     );
   } else {

@@ -1,11 +1,15 @@
 import "./App.css";
 import React from "react";
-import TableWrapper from "./components/tablewrapper";
+// import TableWrapper from "./components/tablewrapper";
+import FoodInputs from "./components/inputforms/foodInputs";
+// import RowAdder from "./components/rowadder";
 
 function App() {
   return (
     <div className="App">
-      <TableWrapper type={"food"} />
+      {/* <TableWrapper type={"food"} /> */}
+      {/* <RowAdder type="food" /> */}
+      <FoodInputs />
     </div>
   );
 }

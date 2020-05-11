@@ -7,8 +7,9 @@ yarn start-api -> runs flask api
 
 
 TODO:
-* fix input forms, factor out the input markup into separate component and have it pass
-data up to rowAdder
+POST request works, still need to handle with API
+* fix input forms, factor out the input markup into separate component and have it pass data up to rowAdder
+* move data treatment to Table from TableWrapper
  - Finish DB CRUD operations
     - Create:   x
     - Read:     +
@@ -21,3 +22,15 @@ data up to rowAdder
 
 PROBLEMS:
 sort by cooked image? might need to add column instead of replacing data with img
+
+NOTES:
+initial component structure was
+TableWrapper -> Table (API call)
+             -> Inputs -> RowAdder -> Table (input data)
+with Inputs being selectable based on TableWrapper type and RowAdder it's table being generic 
+
+Could not dynamically pattern the inputs, and could not pass specifications from context without a ton of data in context
+
+restructured to:
+Inputs -> TableWrapper -> Table (API call)
+             -> RowAdder -> Table (input data)

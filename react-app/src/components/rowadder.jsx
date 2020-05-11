@@ -1,73 +1,29 @@
-import React, { useContext, useState, useReducer } from "react";
-import TableProvider from "../context/tableContext";
+import React from "react";
 import Table from "./table";
+import axios from "axios";
 
-function RowAdder({ type }) {
-  // import specs fro table type
-  const context = useContext(TableProvider);
-  const inputs = context.tableSpecs[type].inputFeilds;
-  // initialize dummy row from input fields
-  const dummyRow = {};
-  // const required = [];
-  for (let inp in inputs) {
-    dummyRow[inputs[inp].name] = "";
-    //   if (inputs[inp].optional) {
-    //     required.push(inputs[inp].name);
-    //   }
-  }
+function RowAdder({ addRows }) {
+  const info = addRows;
+  const headers = Object.keys(addRows[0]);
 
-  // method updates dummy row with data from inputs
-  const reducer = (state, { field, value }) => {
-    return {
-      ...state,
-      [field]: value,
-    };
-  };
-  // link dummy row and reducer() with hook
-  const [newRow, dispatch] = useReducer(reducer, dummyRow);
-  // set state for all new rows
-  const [newRows, setNewRows] = useState([]);
-  // method keeps newRow up to date with inputs
-  const onChange = (e) => {
-    dispatch({ field: e.target.id, value: e.target.value });
+  const saveRows = async (e) => {
+    e.preventDefault();
+    var outdata = JSON.stringify(addRows);
+    console.log("SAVING");
+    console.log(outdata);
+    const res = await axios.post("/food_insert", outdata, {
+      headers: { "content-type": "application/json" },
+    });
   };
 
-  // when submit button is clicked
-  const handleAdd = (evt) => {
-    // prevent default ???
-    evt.preventDefault();
-
-    // update list of new rows
-    setNewRows((oldAry) => [...oldAry, newRow]);
-  };
-  console.log(newRows);
   return (
-    <div>
-      <form onSubmit={handleAdd}>
-        {inputs.map(({ name, type, optional, hint }) => {
-          return (
-            <>
-              <label key={{ name } + "label"} htmlFor={name}>
-                {name.charAt(0).toUpperCase() +
-                  name.slice(1) +
-                  (optional ? "*" : "") +
-                  ": "}
-              </label>
-              <input
-                key={{ name } + "form"}
-                type={type}
-                id={name}
-                onChange={onChange}
-                required={optional ? "required" : optional}
-              />
-              <span key={{ name } + "span"}> {hint}</span>
-              <br key={{ name } + "break"} />
-            </>
-          );
-        })}
-        <input type="submit" value="Submit" />
+    <>
+      <h1>New Rows</h1>
+      <Table headers={headers} info={info} type="add" />
+      <form onSubmit={saveRows}>
+        <input type="submit" value="Save" />
       </form>
-    </div>
+    </>
   );
 }
 
