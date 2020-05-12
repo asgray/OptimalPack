@@ -22,10 +22,10 @@ def meal_ingredients(mealname):
 
 @app.route('/food_insert', methods=['POST'])
 def food_insert():
+
     req_data = request.get_json()
-    for req in req_data:
-        print(req)
-    return req_data
+    db.food_insert(req_data)
+    return 'Data Saved'
 
 if __name__ == '__main__':
     app.run(debug=True)

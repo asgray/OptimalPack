@@ -33,3 +33,14 @@ class Database:
             "where meal.name = %s", mealname
             )
         return self.cur.fetchall()
+    
+    def food_insert(self, json):
+        cols = tuple(key for key in json[0].keys())
+        vals = [tuple(str(val) for val in row.values()) for row in json]
+        print(cols)
+        print(str(vals))
+        self.cur.executemany('INSERT INTO food (name, brand, weight, calories, protein, servings, cooked) VALUES %s',  (vals,))
+        self.con.commit()
+    
+# (name, brand, weight, calories, protein, servings, cooked)
+      
