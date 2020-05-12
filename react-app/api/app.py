@@ -1,32 +1,54 @@
-from flask import Flask
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-import database
-from flask import jsonify, request
+import pymysql
+pymysql.install_as_MySQLdb()
+
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:password@localhost:3306/hikeplanner'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 CORS(app)
+db = SQLAlchemy(app)
 
-db = database.Database()
+
+class Food(db.Model):
+    __tablename__ = 'food'
+    idfood = db.Column('idfood', db.Integer, primary_key=True)
+    name = db.Column('name', db.String(45))
+    brand = db.Column('brand', db.String(45))
+    weight = db.Column('weight', db.Integer)
+    calories = db.Column('calories', db.Integer)
+    protein = db.Column('protein', db.Integer)
+    servings = db.Column('servings', db.Integer)
+    cooked = db.Column('cooked', db.Boolean)
+    headers = [ 'idfood', 'name', 'brand', 'weight', 'calories', 'protein', 'servings', 'cooked']
+
+    def __init__(self, idfood, name, brand, weight, calories, protein, servings, cooked):
+        self.idfood = idfood
+        self.name = name
+        self.brand = brand
+        self.weight = weight
+        self.calories = calories
+        self.protein = protein
+        self.servings = servings
+        self.cooked = cooked
+
 
 @app.route('/food')
 def food():
-    return jsonify(db.list_food())
+    headers = Food.headers
+    foods = [{'idfood':food.idfood, 'name': food.name, 'brand': food.brand, 'weight': food.weight,
+            'calories': food.calories, 'protein': food.protein, 'servings': food.servings,
+            'cooked': int(food.cooked)} for food in Food.query.all()]
+    return jsonify({'headers': headers, 'data':foods})
+    # foods = [food._sa_instance_state for food in foods]
+    # print(foods)
+    # return jsonify(foods)
 
-@app.route('/meallist')
-def meals():
-    return jsonify(db.list_meals())
-
-@app.route('/meal_ingredients/<mealname>', methods=["GET"])
-def meal_ingredients(mealname):
-    return jsonify(db.list_ingredients(mealname))
 
 @app.route('/food_insert', methods=['POST'])
 def food_insert():
-
     req_data = request.get_json()
-    db.food_insert(req_data)
+    print(req_data)
     return 'Data Saved'
-
-if __name__ == '__main__':
-    app.run(debug=True)
-# from api import routes

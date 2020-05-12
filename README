@@ -7,7 +7,7 @@ yarn start-api -> runs flask api
 
 
 TODO:
-POST request works, still need to handle with API
+Rewrite API with SQL alchemy, pymysql is a pain
 * fix input forms, factor out the input markup into separate component and have it pass data up to rowAdder
 * move data treatment to Table from TableWrapper
  - Finish DB CRUD operations
