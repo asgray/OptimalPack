@@ -16,8 +16,6 @@ function RowAdder({ addRows }) {
     const res = await axios.post("/food_insert", outdata, {
       headers: { "content-type": "application/json" },
     });
-
-    console.log(res.data);
   };
 
   return (

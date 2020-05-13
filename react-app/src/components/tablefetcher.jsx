@@ -6,7 +6,7 @@ import Loading from "./loading";
 
 // Component fetches and formats data from an API,
 // Then passes formatted data to Table component for display
-function TableWrapper({ type }) {
+function TableFetcher({ type }) {
   // lookup specifications of table type from context
   const context = useContext(TableProvider);
   const { url, replace, newCols, title, columns } = context[type];
@@ -53,4 +53,4 @@ function TableWrapper({ type }) {
     return <Loading />;
   }
 }
-export default TableWrapper;
+export default TableFetcher;

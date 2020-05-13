@@ -8,7 +8,6 @@ yarn start-api -> runs flask api
 
 TODO:
 * refresh fetched data when new rows are added
-* fix input forms, factor out the input markup into separate component and have it pass data up to rowAdder
 * move data treatment to Table from TableWrapper
  - Finish DB CRUD operations
     - Create:   +
