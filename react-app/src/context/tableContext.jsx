@@ -9,6 +9,16 @@ const tableSpecs = {
   food: {
     title: "Food",
     url: `/food`,
+    columns: [
+      "idfood",
+      "name",
+      "brand",
+      "weight",
+      "calories",
+      "protein",
+      "servings",
+      "cooked",
+    ],
     hiddenCols: [],
     replace: { cooked: { 1: <CookedImg />, 0: <UnCookedImg /> } },
     newCols: { edit: <EditImg />, delete: <DeleteImg /> },

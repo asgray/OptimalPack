@@ -9,14 +9,13 @@ import Loading from "./loading";
 function TableWrapper({ type }) {
   // lookup specifications of table type from context
   const context = useContext(TableProvider);
-  const { url, replace, newCols, title } = context[type];
+  const { url, replace, newCols, title, columns } = context[type];
   // collect data from the API
   const [isLoaded, res] = useGET(url);
   var sql = {};
   var data;
-  var headers;
+  var headers = columns;
   if (isLoaded) {
-    headers = res.data.headers;
     data = res.data.data;
     // extract relevant data
     sql = { headers, data };
