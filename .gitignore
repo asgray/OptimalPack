@@ -27,3 +27,5 @@ Old_Implementation/api/venv
 .vscode/*
 .vscode/settings.json
 .vscode
+
+react-app/api/__pycache__
