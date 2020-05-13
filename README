@@ -32,5 +32,7 @@ with Inputs being selectable based on TableWrapper type and RowAdder it's table 
 Could not dynamically pattern the inputs, and could not pass specifications from context without a ton of data in context
 
 restructured to:
-Inputs -> TableWrapper -> Table (API call)
+Inputs -> TableFetcher -> Table (API call)
              -> RowAdder -> Table (input data)
+
+replaced PyMySQL backend with SQLAlchemy
