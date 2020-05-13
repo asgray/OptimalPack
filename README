@@ -8,12 +8,13 @@ yarn start-api -> runs flask api
 
 TODO:
 * refresh fetched data when new rows are added
-* move data treatment to Table from TableWrapper
+* add warning to delete button
+* figure out if memo hooks need dependencies
  - Finish DB CRUD operations
     - Create:   +
     - Read:     +
     - Update:   x
-    - Delete:   x
+    - Delete:   +
  - test table with more requests
  - handle HTTP errors
  - handle DB fetch errors
@@ -21,6 +22,7 @@ TODO:
 
 PROBLEMS:
 sort by cooked image? might need to add column instead of replacing data with img
+GET is done by hook, POST by async function, does this matter?
 
 NOTES:
 initial component structure was
@@ -35,3 +37,4 @@ Inputs -> TableFetcher -> Table (API call)
              -> RowAdder -> Table (input data)
 
 replaced PyMySQL backend with SQLAlchemy
+   cannot tell if automapper is worth it

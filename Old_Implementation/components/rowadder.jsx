@@ -6,7 +6,7 @@ function RowAdder({ addRows }) {
   const info = addRows;
   const headers = Object.keys(addRows[0]);
 
-  const type = "food";
+  // const type = "food";
 
   const saveRows = async (e) => {
     e.preventDefault();
@@ -16,6 +16,7 @@ function RowAdder({ addRows }) {
     const res = await axios.post("/food_insert", outdata, {
       headers: { "content-type": "application/json" },
     });
+    console.log(res);
   };
 
   return (

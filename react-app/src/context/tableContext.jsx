@@ -1,14 +1,13 @@
 import React, { createContext } from "react";
 import CookedImg from "../assets/cookedImg";
 import UnCookedImg from "../assets/uncookedImg";
-import EditImg from "../assets/editrowbutton";
-import DeleteImg from "../assets/deleterowbutton";
 
 const tableSpecs = {
   //
   food: {
     title: "Food",
     url: `/food`,
+    keyval: "idfood",
     columns: [
       "idfood",
       "name",
@@ -19,13 +18,8 @@ const tableSpecs = {
       "servings",
       "cooked",
     ],
-    hiddenCols: [],
+    hiddenCols: ["idfood"],
     replace: { cooked: { 1: <CookedImg />, 0: <UnCookedImg /> } },
-    newCols: { edit: <EditImg />, delete: <DeleteImg /> },
-  },
-  add: {
-    title: "Add Rows",
-    hiddenCols: [],
   },
 };
 

@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from "react";
 import TableFetcher from "./tablefetcher";
-import RowAdder from "./rowadder";
 import FoodInputs from "./inputforms/foodinputs";
+import { sendRow } from "../utils/utils";
 
 const FoodPanel = () => {
   const dummyRow = {
@@ -14,7 +14,6 @@ const FoodPanel = () => {
     cooked: 1,
   };
 
-  // BOILERPLATE FORM HANDLING
   // method updates dummy row with data from inputs
   const reducer = (state, { field, value }) => {
     return {
@@ -28,27 +27,22 @@ const FoodPanel = () => {
   const onChange = (e) => {
     dispatch({ field: e.target.id, value: e.target.value });
   };
-  // set state for all new rows
-  const [newRows, setNewRows] = useState([]);
-  // add new row to state on form submit
+
+  const [update, setUpdate] = useState(false);
+
   const logNewRow = (e) => {
     e.preventDefault();
-    setNewRows([...newRows, curRow]);
+    sendRow(curRow, "/food_insert");
+    // setUpdate(true);
     e.target.reset();
   };
-  // END BOILERPLATE
 
   return (
     <>
       {/* fetch current data from database */}
       <TableFetcher type="food" />
-      {/* if there is new information to send to database, render it */}
-      {newRows.length ? (
-        <RowAdder addRows={newRows} />
-      ) : (
-        <p>Enter New Items Here:</p>
-      )}
       {/* display input forms */}
+      <p>Enter New Items Here:</p>
       <FoodInputs onChange={onChange} handler={logNewRow} curRow={curRow} />
     </>
   );
