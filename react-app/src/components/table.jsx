@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import { useTable, useSortBy, useRowSelect } from "react-table";
 
 const IndeterminateCheckbox = React.forwardRef(
@@ -6,7 +6,7 @@ const IndeterminateCheckbox = React.forwardRef(
     const defaultRef = React.useRef();
     const resolvedRef = ref || defaultRef;
 
-    React.useEffect(() => {
+    useEffect(() => {
       resolvedRef.current.indeterminate = indeterminate;
     }, [resolvedRef, indeterminate]);
 
@@ -75,6 +75,9 @@ const Table = ({ info, columns }) => {
                 }
               >
                 {column.render("Header")}
+                <span>
+                  {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}
+                </span>
               </th>
             ))}
           </tr>
