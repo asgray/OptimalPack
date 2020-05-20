@@ -9,14 +9,36 @@ const tableSpecs = {
     url: `/food`,
     keyval: "idfood",
     columns: [
-      "idfood",
-      "name",
-      "brand",
-      "weight",
-      "calories",
-      "protein",
-      "servings",
-      "cooked",
+      {
+        Header: "Name",
+        accessor: "name",
+      },
+      {
+        Header: "Brand",
+        accessor: "brand",
+      },
+      {
+        Header: "Weight",
+        accessor: "weight",
+      },
+      {
+        Header: "Calories",
+        accessor: "calories",
+      },
+      {
+        Header: "Protein",
+        accessor: "protein",
+      },
+      {
+        Header: "Servings",
+        accessor: "servings",
+      },
+      {
+        Header: "Cooked",
+        accessor: "cooked",
+        Cell: ({ cell: { value } }) =>
+          value === 0 ? <UnCookedImg /> : <CookedImg />,
+      },
     ],
     hiddenCols: ["idfood"],
     replace: { cooked: { 1: <CookedImg />, 0: <UnCookedImg /> } },

@@ -7,7 +7,6 @@ yarn start-api -> runs flask api
 
 
 TODO:
-* refresh fetched data when new rows are added
 * add warning to delete button
 * figure out if memo hooks need dependencies
  - Finish DB CRUD operations

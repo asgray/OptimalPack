@@ -29,8 +29,7 @@ class Food(db.Model):
     cooked = db.Column('cooked', db.Boolean)
     headers = [ 'idfood', 'name', 'brand', 'weight', 'calories', 'protein', 'servings', 'cooked']
 
-    def __init__(self, idfood, name, brand, weight, calories, protein, servings, cooked):
-        self.idfood = idfood
+    def __init__(self, name, brand, weight, calories, protein, servings, cooked):
         self.name = name
         self.brand = brand
         self.weight = weight
@@ -44,7 +43,7 @@ def food():
     foods = [{'idfood':food.idfood, 'name': food.name, 'brand': food.brand, 'weight': food.weight,
             'calories': food.calories, 'protein': food.protein, 'servings': food.servings,
             'cooked': int(food.cooked)} for food in db.session.query(Food).all()]
-    return jsonify({'data':foods})
+    return jsonify(foods)
 
 
 @app.route('/food_insert', methods=['POST'])
@@ -57,8 +56,8 @@ def food_insert():
 
 @app.route('/food_delete', methods=['POST'])
 def food_delete():
-        target_id = request.get_json()
-        target = Food.query.filter_by(idfood=target_id).first()
-        db.session.delete(target)
-        db.session.commit()
-        return f'Food {target_id} deleted'
+    target_id = request.get_json()
+    target = Food.query.filter_by(idfood=target_id).first()
+    db.session.delete(target)
+    db.session.commit()
+    return f'Food {target_id} deleted'

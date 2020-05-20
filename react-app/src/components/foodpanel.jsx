@@ -1,49 +1,32 @@
-import React, { useReducer, useState } from "react";
-import TableFetcher from "./tablefetcher";
+import React, { useState, useContext, useEffect } from "react";
+import TableProvider from "../context/tableContext";
 import FoodInputs from "./inputforms/foodinputs";
-import { sendRow } from "../utils/utils";
+import Loading from "./loading";
+import Table from "./table";
+import axios from "axios";
 
 const FoodPanel = () => {
-  const dummyRow = {
-    name: "",
-    brand: "",
-    weight: "",
-    calories: "",
-    protein: "",
-    servings: "",
-    cooked: 1,
-  };
+  // lookup specifications of table type from context
+  const context = useContext(TableProvider);
+  const { url, columns } = context["food"];
 
-  // method updates dummy row with data from inputs
-  const reducer = (state, { field, value }) => {
-    return {
-      ...state,
-      [field]: value,
-    };
-  };
-  // link dummy row and reducer() with hook
-  const [curRow, dispatch] = useReducer(reducer, dummyRow);
-  // method keeps newRow up to date with inputs
-  const onChange = (e) => {
-    dispatch({ field: e.target.id, value: e.target.value });
-  };
+  // DATA STUFF
+  const [data, setData] = useState([]);
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    (async () => {
+      const result = await axios.get(url);
+      setData(result.data);
+      setLoaded(true);
+    })();
+  }, [url, loaded]);
 
-  const [update, setUpdate] = useState(false);
-
-  const logNewRow = (e) => {
-    e.preventDefault();
-    sendRow(curRow, "/food_insert");
-    // setUpdate(true);
-    e.target.reset();
-  };
+  // DATA STUFF
 
   return (
     <>
-      {/* fetch current data from database */}
-      <TableFetcher type="food" />
-      {/* display input forms */}
-      <p>Enter New Items Here:</p>
-      <FoodInputs onChange={onChange} handler={logNewRow} curRow={curRow} />
+      {data.length ? <Table info={data} columns={columns} /> : <Loading />}
+      <FoodInputs setLoaded={setLoaded} />
     </>
   );
 };

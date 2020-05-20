@@ -1,50 +1,27 @@
-import React, { useMemo, useContext } from "react";
-import { useTable } from "react-table";
-import TableProvider from "../context/tableContext";
-import EditImg from "../assets/editrowbutton";
-import DeleteImg from "../assets/deleterowbutton";
+import React, { useMemo } from "react";
+import { useTable, useSortBy, useRowSelect } from "react-table";
 
-function Table({ info, headers, type }) {
-  // lookup specifications of table type from context
-  const context = useContext(TableProvider);
-  const { hiddenCols, replace, keyval } = context[type];
-  // add new columns to list
-  headers.push("edit");
-  headers.push("delete");
+const IndeterminateCheckbox = React.forwardRef(
+  ({ indeterminate, ...rest }, ref) => {
+    const defaultRef = React.useRef();
+    const resolvedRef = ref || defaultRef;
 
-  // make any data replacements per specification
-  var finalrows = info.map((row) => {
-    // check each fiild to be edited
-    for (let col in replace) {
-      // extract replacement mapping for field
-      let options = replace[col];
-      // perform reassignment
-      row[col] = options[row[col]];
-    }
-    row["edit"] = <EditImg />;
-    row["delete"] = <DeleteImg id={row[keyval]} />;
-    return row;
-  });
+    React.useEffect(() => {
+      resolvedRef.current.indeterminate = indeterminate;
+    }, [resolvedRef, indeterminate]);
 
+    return (
+      <>
+        <input type="checkbox" ref={resolvedRef} {...rest} />
+      </>
+    );
+  }
+);
+
+const Table = ({ info, columns }) => {
   // TABLE PREP
   // React-Table requires memoized data for inputs
-  var data = useMemo(() => finalrows, []);
-
-  var columns = useMemo(
-    () =>
-      headers.map((col) => ({
-        Header: col.charAt(0).toUpperCase() + col.slice(1),
-        accessor: col,
-      })),
-    []
-  );
-
-  var initialState = useMemo(
-    () => ({
-      hiddenColumns: hiddenCols,
-    }),
-    []
-  );
+  var data = useMemo(() => info, [info]);
 
   // calling table
   const {
@@ -53,7 +30,31 @@ function Table({ info, headers, type }) {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ columns, data, initialState });
+    selectedFlatRows,
+    state: { selectedRowIds },
+  } = useTable({ columns, data }, useSortBy, useRowSelect, (hooks) => {
+    hooks.visibleColumns.push((columns) => [
+      // Let's make a column for selection
+      {
+        id: "selection",
+        // The header can use the table's getToggleAllRowsSelectedProps method
+        // to render a checkbox
+        Header: ({ getToggleAllRowsSelectedProps }) => (
+          <div>
+            <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
+          </div>
+        ),
+        // The cell can use the individual row's getToggleRowSelectedProps method
+        // to the render a checkbox
+        Cell: ({ row }) => (
+          <div>
+            <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
+          </div>
+        ),
+      },
+      ...columns,
+    ]);
+  });
   // END TABLE PREP
 
   // boilerplate React-Table Render
@@ -63,7 +64,18 @@ function Table({ info, headers, type }) {
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+              <th
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+                className={
+                  column.isSorted
+                    ? column.isSortedDesc
+                      ? "sort-desc"
+                      : "sort-asc"
+                    : ""
+                }
+              >
+                {column.render("Header")}
+              </th>
             ))}
           </tr>
         ))}
@@ -82,6 +94,6 @@ function Table({ info, headers, type }) {
       </tbody>
     </table>
   );
-}
+};
 
 export default Table;
