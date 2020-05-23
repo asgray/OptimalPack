@@ -108,7 +108,7 @@ const FoodInputs = ({ setLoaded }) => {
             <label>
               <input
                 type="radio"
-                id="cooked"
+                id="cooked_yes"
                 value={1}
                 checked={curRow.cooked === "1"}
                 onChange={onChange}
@@ -118,7 +118,7 @@ const FoodInputs = ({ setLoaded }) => {
             <label>
               <input
                 type="radio"
-                id="cooked"
+                id="cooked_no"
                 value={0}
                 checked={curRow.cooked === "0"}
                 onChange={onChange}

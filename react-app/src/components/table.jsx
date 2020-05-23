@@ -1,27 +1,29 @@
-import React, { useMemo, useEffect } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { useTable, useSortBy, useRowSelect } from "react-table";
+import DelTable from "./deltable";
 
-const IndeterminateCheckbox = React.forwardRef(
+// boilerplate from React-Table row slection with checkboxes
+const IndeterminateRadio = React.forwardRef(
   ({ indeterminate, ...rest }, ref) => {
     const defaultRef = React.useRef();
     const resolvedRef = ref || defaultRef;
-
     useEffect(() => {
       resolvedRef.current.indeterminate = indeterminate;
     }, [resolvedRef, indeterminate]);
-
     return (
       <>
-        <input type="checkbox" ref={resolvedRef} {...rest} />
+        <input name="select" type="radio" ref={resolvedRef} {...rest} />
       </>
     );
   }
 );
+// -----
 
 const Table = ({ info, columns }) => {
   // TABLE PREP
   // React-Table requires memoized data for inputs
-  var data = useMemo(() => info, [info]);
+  const data = useMemo(() => info, [info]);
+  const [selectedRow, setSelectedRow] = useState(null);
 
   // calling table
   const {
@@ -31,71 +33,97 @@ const Table = ({ info, columns }) => {
     rows,
     prepareRow,
     selectedFlatRows,
-    state: { selectedRowIds },
-  } = useTable({ columns, data }, useSortBy, useRowSelect, (hooks) => {
-    hooks.visibleColumns.push((columns) => [
-      // Let's make a column for selection
-      {
-        id: "selection",
-        // The header can use the table's getToggleAllRowsSelectedProps method
-        // to render a checkbox
-        Header: ({ getToggleAllRowsSelectedProps }) => (
-          <div>
-            <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-          </div>
-        ),
-        // The cell can use the individual row's getToggleRowSelectedProps method
-        // to the render a checkbox
-        Cell: ({ row }) => (
-          <div>
-            <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-          </div>
-        ),
-      },
-      ...columns,
-    ]);
-  });
+    // state: { selectedRowPaths },
+  } = useTable(
+    {
+      columns,
+      data,
+      autoResetSelectedRows: false,
+      initialState: { selectedRow },
+    },
+    useSortBy,
+    useRowSelect,
+    (hooks) => {
+      hooks.visibleColumns.push((columns) => [
+        // Let's make a column for selection
+        {
+          id: "selection",
+          // The cell can use the individual row's getToggleRowSelectedProps method
+          // to the render a radio button
+          Cell: ({ row }) => (
+            <div>
+              <IndeterminateRadio
+                onClick={() => {
+                  setSelectedRow(row.original);
+                }}
+                {...row.getToggleRowSelectedProps()}
+              />
+            </div>
+          ),
+        },
+        ...columns,
+      ]);
+    }
+  );
   // END TABLE PREP
 
-  // boilerplate React-Table Render
   return (
-    <table {...getTableProps()}>
-      <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-                className={
-                  column.isSorted
-                    ? column.isSortedDesc
-                      ? "sort-desc"
-                      : "sort-asc"
-                    : ""
-                }
-              >
-                {column.render("Header")}
-                <span>
-                  {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}
-                </span>
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-              })}
+    <>
+      {selectedFlatRows.length ? (
+        <DelTable
+          columns={columns}
+          // info={selectedFlatRows.map((row) => {
+          //   return row.original;
+          // })}
+          info={[selectedRow]}
+        />
+      ) : null}
+      {/* <input type="submit" value="TEST" onClick={test} /> */}
+      <h1>Food</h1>
+      <table {...getTableProps()}>
+        <thead>
+          {headerGroups.map((headerGroup) => (
+            <tr {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  className={
+                    column.isSorted
+                      ? column.isSortedDesc
+                        ? "sort-desc"
+                        : "sort-asc"
+                      : ""
+                  }
+                >
+                  {column.render("Header")}
+                  <span>
+                    {column.isSorted
+                      ? column.isSortedDesc
+                        ? " 🔽"
+                        : " 🔼"
+                      : ""}
+                  </span>
+                </th>
+              ))}
             </tr>
-          );
-        })}
-      </tbody>
-    </table>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {rows.map((row) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </>
   );
 };
 

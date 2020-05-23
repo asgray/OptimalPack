@@ -7,6 +7,8 @@ yarn start-api -> runs flask api
 
 
 TODO:
+* radio buttons work, but do not reflect state
+* add pagination
 * add warning to delete button
 * figure out if memo hooks need dependencies
  - Finish DB CRUD operations

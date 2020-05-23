@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import TableProvider from "../context/tableContext";
-import FoodInputs from "./inputforms/foodinputs";
+import FoodInputs from "./inputforms/foodInputs";
 import Loading from "./loading";
 import Table from "./table";
 import axios from "axios";

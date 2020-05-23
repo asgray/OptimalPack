@@ -10,6 +10,10 @@ const tableSpecs = {
     keyval: "idfood",
     columns: [
       {
+        Header: "ID",
+        accessor: "idfood",
+      },
+      {
         Header: "Name",
         accessor: "name",
       },

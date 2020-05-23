@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import TableProvider from "../context/tableContext";
-import Table from "./table";
-import { useGET } from "../hooks/useGet";
-import Loading from "./loading";
+import TableProvider from "../../react-app/src/context/tableContext";
+import Table from "../../react-app/src/components/table";
+import { useGET } from "../../react-app/src/hooks/useGet";
+import Loading from "../../react-app/src/components/loading";
 
 // Component fetches and formats data from an API,
 // Then passes formatted data to Table component for display
