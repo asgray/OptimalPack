@@ -45,3 +45,7 @@ table {
   margin: 0 auto;
   border: black solid 3px;
 }
+
+.selected {
+  background-color: yellow;
+}

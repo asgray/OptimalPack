@@ -9,10 +9,10 @@ const tableSpecs = {
     url: `/food`,
     keyval: "idfood",
     columns: [
-      {
-        Header: "ID",
-        accessor: "idfood",
-      },
+      // {
+      //   Header: "ID",
+      //   accessor: "idfood",
+      // },
       {
         Header: "Name",
         accessor: "name",

@@ -1,22 +1,27 @@
 import React, { useMemo, useEffect, useState } from "react";
 import { useTable, useSortBy, useRowSelect } from "react-table";
 import DelTable from "./deltable";
+import edit from "../assets/edit.jpg";
 
 // boilerplate from React-Table row slection with checkboxes
-const IndeterminateRadio = React.forwardRef(
-  ({ indeterminate, ...rest }, ref) => {
-    const defaultRef = React.useRef();
-    const resolvedRef = ref || defaultRef;
-    useEffect(() => {
-      resolvedRef.current.indeterminate = indeterminate;
-    }, [resolvedRef, indeterminate]);
-    return (
-      <>
-        <input name="select" type="radio" ref={resolvedRef} {...rest} />
-      </>
-    );
-  }
-);
+// const IndeterminateImg = React.forwardRef(({ indeterminate, ...rest }, ref) => {
+//   const defaultRef = React.useRef();
+//   const resolvedRef = ref || defaultRef;
+//   useEffect(() => {
+//     resolvedRef.current.indeterminate = indeterminate;
+//   }, [resolvedRef, indeterminate]);
+//   return (
+//     <>
+//       <input
+//         // name="select"
+//         type="image"
+//         src={edit}
+//         ref={resolvedRef}
+//         {...rest}
+//       />
+//     </>
+//   );
+// });
 // -----
 
 const Table = ({ info, columns }) => {
@@ -42,40 +47,38 @@ const Table = ({ info, columns }) => {
       initialState: { selectedRow },
     },
     useSortBy,
-    useRowSelect,
-    (hooks) => {
-      hooks.visibleColumns.push((columns) => [
-        // Let's make a column for selection
-        {
-          id: "selection",
-          // The cell can use the individual row's getToggleRowSelectedProps method
-          // to the render a radio button
-          Cell: ({ row }) => (
-            <div>
-              <IndeterminateRadio
-                onClick={() => {
-                  setSelectedRow(row.original);
-                }}
-                {...row.getToggleRowSelectedProps()}
-              />
-            </div>
-          ),
-        },
-        ...columns,
-      ]);
-    }
+    useRowSelect
+    // (hooks) => {
+    //   hooks.visibleColumns.push((columns) => [
+    //     // Let's make a column for selection
+    //     {
+    //       id: "selection",
+    //       // The cell can use the individual row's getToggleRowSelectedProps method
+    //       // to the render a radio button
+    //       Cell: ({ row }) => (
+    //         <div>
+    //           <IndeterminateImg
+    //             onClick={() => {
+    //               setSelectedRow(row);
+    //             }}
+    //             {...row.getToggleRowSelectedProps()}
+    //           />
+    //         </div>
+    //       ),
+    //     },
+    //     ...columns,
+    //   ]);
+    // }
   );
   // END TABLE PREP
 
   return (
     <>
-      {selectedFlatRows.length ? (
+      {selectedRow ? (
         <DelTable
           columns={columns}
-          // info={selectedFlatRows.map((row) => {
-          //   return row.original;
-          // })}
-          info={[selectedRow]}
+          info={[selectedRow.original]}
+          setSelectedRow={setSelectedRow}
         />
       ) : null}
       {/* <input type="submit" value="TEST" onClick={test} /> */}
@@ -112,7 +115,19 @@ const Table = ({ info, columns }) => {
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr
+                onClick={() => {
+                  setSelectedRow(row);
+                }}
+                {...row.getRowProps()}
+                className={
+                  selectedRow
+                    ? row.id === selectedRow.id
+                      ? "selected"
+                      : ""
+                    : ""
+                }
+              >
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
