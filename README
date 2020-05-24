@@ -7,8 +7,6 @@ yarn start-api -> runs flask api
 
 
 TODO:
-* radio buttons work, but do not reflect state
-* add pagination
 * add warning to delete button
 * figure out if memo hooks need dependencies
  - Finish DB CRUD operations
@@ -39,3 +37,5 @@ Inputs -> TableFetcher -> Table (API call)
 
 replaced PyMySQL backend with SQLAlchemy
    cannot tell if automapper is worth it
+
+the saga of checkboxes, radio buttons, and multiselect

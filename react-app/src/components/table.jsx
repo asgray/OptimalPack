@@ -1,28 +1,7 @@
 import React, { useMemo, useEffect, useState } from "react";
-import { useTable, useSortBy, useRowSelect } from "react-table";
+import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
 import DelTable from "./deltable";
 import edit from "../assets/edit.jpg";
-
-// boilerplate from React-Table row slection with checkboxes
-// const IndeterminateImg = React.forwardRef(({ indeterminate, ...rest }, ref) => {
-//   const defaultRef = React.useRef();
-//   const resolvedRef = ref || defaultRef;
-//   useEffect(() => {
-//     resolvedRef.current.indeterminate = indeterminate;
-//   }, [resolvedRef, indeterminate]);
-//   return (
-//     <>
-//       <input
-//         // name="select"
-//         type="image"
-//         src={edit}
-//         ref={resolvedRef}
-//         {...rest}
-//       />
-//     </>
-//   );
-// });
-// -----
 
 const Table = ({ info, columns }) => {
   // TABLE PREP
@@ -35,40 +14,27 @@ const Table = ({ info, columns }) => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     prepareRow,
-    selectedFlatRows,
-    // state: { selectedRowPaths },
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
       data,
       autoResetSelectedRows: false,
-      initialState: { selectedRow },
+      initialState: { selectedRow, pageIndex: 0, pageSize: 20 },
     },
     useSortBy,
-    useRowSelect
-    // (hooks) => {
-    //   hooks.visibleColumns.push((columns) => [
-    //     // Let's make a column for selection
-    //     {
-    //       id: "selection",
-    //       // The cell can use the individual row's getToggleRowSelectedProps method
-    //       // to the render a radio button
-    //       Cell: ({ row }) => (
-    //         <div>
-    //           <IndeterminateImg
-    //             onClick={() => {
-    //               setSelectedRow(row);
-    //             }}
-    //             {...row.getToggleRowSelectedProps()}
-    //           />
-    //         </div>
-    //       ),
-    //     },
-    //     ...columns,
-    //   ]);
-    // }
+    useRowSelect,
+    usePagination
   );
   // END TABLE PREP
 
@@ -83,6 +49,50 @@ const Table = ({ info, columns }) => {
       ) : null}
       {/* <input type="submit" value="TEST" onClick={test} /> */}
       <h1>Food</h1>
+      <div className="pagination">
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {"<<"}
+        </button>{" "}
+        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+          {"<"}
+        </button>{" "}
+        <button onClick={() => nextPage()} disabled={!canNextPage}>
+          {">"}
+        </button>{" "}
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {">>"}
+        </button>{" "}
+        <span>
+          Page{" "}
+          <strong>
+            {pageIndex + 1} of {pageOptions.length}
+          </strong>{" "}
+        </span>
+        <span>
+          | Go to page:{" "}
+          <input
+            type="number"
+            defaultValue={pageIndex + 1}
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0;
+              gotoPage(page);
+            }}
+            style={{ width: "100px" }}
+          />
+        </span>{" "}
+        <select
+          value={pageSize}
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+      </div>
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -112,7 +122,7 @@ const Table = ({ info, columns }) => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row, i) => {
             prepareRow(row);
             return (
               <tr
