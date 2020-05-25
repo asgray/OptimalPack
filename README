@@ -7,8 +7,8 @@ yarn start-api -> runs flask api
 
 
 TODO:
-* add warning to delete button
-* figure out if memo hooks need dependencies
+* fix COOKED input
+* save place with pagination
  - Finish DB CRUD operations
     - Create:   +
     - Read:     +
@@ -39,3 +39,5 @@ replaced PyMySQL backend with SQLAlchemy
    cannot tell if automapper is worth it
 
 the saga of checkboxes, radio buttons, and multiselect
+
+DELETE requires only ID to be submitted

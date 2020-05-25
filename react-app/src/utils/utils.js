@@ -7,5 +7,5 @@ export const sendRow = async (row, url) => {
   const res = await axios.post(url, outdata, {
     headers: { "content-type": "application/json" },
   });
-  console.log(res);
+  console.log(res.data);
 };

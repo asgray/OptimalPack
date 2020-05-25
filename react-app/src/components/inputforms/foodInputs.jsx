@@ -40,6 +40,11 @@ const FoodInputs = ({ setLoaded }) => {
   // FORM STUFF
   return (
     <div className="Inputs">
+      <input
+        type="submit"
+        value={show ? "Hide" : "Add New Row"}
+        onClick={showInputs}
+      />
       {show ? (
         <form onSubmit={logNewRow}>
           <label htmlFor="name">
@@ -107,20 +112,22 @@ const FoodInputs = ({ setLoaded }) => {
             Cooked:
             <label>
               <input
+                name="cooked"
                 type="radio"
                 id="cooked_yes"
                 value={1}
-                checked={curRow.cooked === "1"}
+                // checked={curRow.cooked === 1}
                 onChange={onChange}
               />
               Yes
             </label>
             <label>
               <input
+                name="cooked"
                 type="radio"
                 id="cooked_no"
                 value={0}
-                checked={curRow.cooked === "0"}
+                // checked={curRow.cooked === 0}
                 onChange={onChange}
               />
               No
@@ -130,8 +137,6 @@ const FoodInputs = ({ setLoaded }) => {
           <input type="submit" value="Submit" />
         </form>
       ) : null}
-
-      <input type="submit" value="Add New Row" onClick={showInputs} />
     </div>
   );
 };

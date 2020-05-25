@@ -1,13 +1,16 @@
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
-import DelTable from "./deltable";
-import edit from "../assets/edit.jpg";
 
-const Table = ({ info, columns }) => {
+const Table = ({
+  info,
+  columns,
+  setDeletePrompt,
+  selectedRow,
+  setSelectedRow,
+}) => {
   // TABLE PREP
   // React-Table requires memoized data for inputs
   const data = useMemo(() => info, [info]);
-  const [selectedRow, setSelectedRow] = useState(null);
 
   // calling table
   const {
@@ -40,15 +43,8 @@ const Table = ({ info, columns }) => {
 
   return (
     <>
-      {selectedRow ? (
-        <DelTable
-          columns={columns}
-          info={[selectedRow.original]}
-          setSelectedRow={setSelectedRow}
-        />
-      ) : null}
-      {/* <input type="submit" value="TEST" onClick={test} /> */}
       <h1>Food</h1>
+
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {"<<"}
@@ -92,6 +88,13 @@ const Table = ({ info, columns }) => {
             </option>
           ))}
         </select>
+        <button
+          disabled={selectedRow ? "" : "disabled"}
+          onClick={() => setDeletePrompt(true)}
+        >
+          Delete
+        </button>
+        {/* <button disabled={selectedRow ? "" : "disabled"}>Edit</button> */}
       </div>
       <table {...getTableProps()}>
         <thead>
@@ -127,7 +130,11 @@ const Table = ({ info, columns }) => {
             return (
               <tr
                 onClick={() => {
-                  setSelectedRow(row);
+                  selectedRow
+                    ? selectedRow.id === row.id
+                      ? setSelectedRow(null)
+                      : setSelectedRow(row)
+                    : setSelectedRow(row);
                 }}
                 {...row.getRowProps()}
                 className={
