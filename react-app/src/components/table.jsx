@@ -5,6 +5,7 @@ const Table = ({
   info,
   columns,
   setDeletePrompt,
+  setEditPrompt,
   selectedRow,
   setSelectedRow,
 }) => {
@@ -43,8 +44,6 @@ const Table = ({
 
   return (
     <>
-      <h1>Food</h1>
-
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {"<<"}
@@ -94,8 +93,16 @@ const Table = ({
         >
           Delete
         </button>
-        {/* <button disabled={selectedRow ? "" : "disabled"}>Edit</button> */}
+        <button
+          disabled={selectedRow ? "" : "disabled"}
+          onClick={() => setEditPrompt(true)}
+        >
+          Edit
+        </button>
       </div>
+
+      {/* TABLE */}
+
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (

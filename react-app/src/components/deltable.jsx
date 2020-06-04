@@ -2,13 +2,7 @@ import React, { useMemo } from "react";
 import { useTable } from "react-table";
 import { sendRow } from "../utils/utils";
 
-const DelTable = ({
-  columns,
-  info,
-  setDeletePrompt,
-  selectedRow,
-  setLoaded,
-}) => {
+const DelTable = ({ columns, info, setDeletePrompt, setLoaded }) => {
   const data = useMemo(() => info, [info]);
   const {
     getTableProps,
@@ -47,7 +41,7 @@ const DelTable = ({
       <span>
         <button
           onClick={() => {
-            sendRow(selectedRow.original["idfood"], "/food_delete");
+            sendRow(info[0]["idfood"], "/food_delete");
             setDeletePrompt(false);
             setLoaded(false);
           }}

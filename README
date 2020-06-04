@@ -8,7 +8,8 @@ yarn start-api -> runs flask api
 
 TODO:
 * fix COOKED input
-* save place with pagination
+* save place with pagination on update
+* sendRow needs to accept a general row object
  - Finish DB CRUD operations
     - Create:   +
     - Read:     +
