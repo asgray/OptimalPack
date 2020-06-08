@@ -7,9 +7,7 @@ yarn start-api -> runs flask api
 
 
 TODO:
-* fix COOKED input
 * save place with pagination on update
-* sendRow needs to accept a general row object
  - Finish DB CRUD operations
     - Create:   +
     - Read:     +
@@ -21,8 +19,8 @@ TODO:
  - personalize 
 
 PROBLEMS:
-sort by cooked image? might need to add column instead of replacing data with img
-GET is done by hook, POST by async function, does this matter?
+COOKED input is broken
+sendRow needs to accept a general row object, api should be able to parse the row
 
 NOTES:
 initial component structure was
