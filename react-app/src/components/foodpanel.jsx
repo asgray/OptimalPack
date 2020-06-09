@@ -1,8 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import TableProvider from "../context/tableContext";
-import FoodInputs from "./inputforms/foodInputs";
+import InputForm from "./inputform";
 import DelTable from "./deltable";
-import EditTable from "./edittable";
 import Loading from "./loading";
 import Table from "./table";
 import axios from "axios";
@@ -15,9 +14,16 @@ const FoodPanel = () => {
   // DATA STUFF
   const [data, setData] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
+
+  // Booleans to display modal inputs
   const [deleteprompt, setDeletePrompt] = useState(false);
   const [editprompt, setEditPrompt] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(null);
+  const [addRow, setAddRow] = useState(false);
+  const showInputs = () => {
+    setAddRow(!addRow);
+  };
+
   useEffect(() => {
     (async () => {
       const result = await axios.get(url);
@@ -26,7 +32,9 @@ const FoodPanel = () => {
     })();
   }, [url, loaded]);
 
-  // DATA STUFF
+  const closePanel = (flag, setFlag) => {
+    setFlag(!flag);
+  };
 
   return (
     <>
@@ -39,12 +47,7 @@ const FoodPanel = () => {
         />
       ) : null}
       {editprompt && selectedRow && !deleteprompt ? (
-        <EditTable
-          info={[selectedRow.original]}
-          columns={columns}
-          setEditPrompt={setEditPrompt}
-          setLoaded={setLoaded}
-        />
+        <InputForm editRow={selectedRow.original} setLoaded={setLoaded} />
       ) : null}
       {data.length ? (
         <>
@@ -61,7 +64,25 @@ const FoodPanel = () => {
       ) : (
         <Loading />
       )}
-      <FoodInputs setLoaded={setLoaded} />
+      <input
+        type="submit"
+        value={addRow ? "Hide" : "Add New Row"}
+        onClick={showInputs}
+      />
+      {addRow ? (
+        <InputForm
+          setLoaded={setLoaded}
+          editRow={{
+            name: undefined,
+            brand: undefined,
+            weight: undefined,
+            calories: undefined,
+            protein: undefined,
+            servings: undefined,
+            cooked: undefined,
+          }}
+        />
+      ) : null}
     </>
   );
 };
