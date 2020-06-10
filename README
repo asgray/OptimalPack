@@ -7,6 +7,7 @@ yarn start-api -> runs flask api
 
 
 TODO:
+** InputForm needs to be polished/working
 * save place with pagination on update
  - Finish DB CRUD operations
     - Create:   +
@@ -33,6 +34,17 @@ Could not dynamically pattern the inputs, and could not pass specifications from
 restructured to:
 Inputs -> TableFetcher -> Table (API call)
              -> RowAdder -> Table (input data)
+
+further restructured to:
+CRUDPanel -> InputForm -> Inputs
+          -> InputForm -> Inputs
+          -> DelteTable
+          -> CRUDButtons
+          -> TableHeader
+          -> Table
+          -> TableHeader
+^TableContext^ provides specific API and header data
+Table and TableHeader are all HTML, all state logic is in CRUDPanel
 
 replaced PyMySQL backend with SQLAlchemy
    cannot tell if automapper is worth it

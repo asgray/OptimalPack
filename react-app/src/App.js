@@ -1,11 +1,11 @@
 import "./App.css";
 import React from "react";
-import FoodPanel from "./components/foodpanel";
+import CRUDPanel from "./components/crudpanel";
 
 function App() {
   return (
     <div className="App">
-      <FoodPanel />
+      <CRUDPanel />
     </div>
   );
 }

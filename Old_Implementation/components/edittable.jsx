@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { useTable } from "react-table";
-import { sendRow } from "../utils/utils";
+import { sendRow } from "../../react-app/src/utils/utils";
 
 // Create an editable cell renderer
 const EditableCell = ({

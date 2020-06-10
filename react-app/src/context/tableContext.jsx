@@ -9,10 +9,6 @@ const tableSpecs = {
     url: `/food`,
     keyval: "idfood",
     columns: [
-      // {
-      //   Header: "ID",
-      //   accessor: "idfood",
-      // },
       {
         Header: "Name",
         accessor: "name",
@@ -44,8 +40,16 @@ const tableSpecs = {
           value === 0 ? <UnCookedImg /> : <CookedImg />,
       },
     ],
-    hiddenCols: ["idfood"],
-    replace: { cooked: { 1: <CookedImg />, 0: <UnCookedImg /> } },
+
+    dummyrow: {
+      name: undefined,
+      brand: undefined,
+      weight: undefined,
+      calories: undefined,
+      protein: undefined,
+      servings: undefined,
+      cooked: undefined,
+    },
   },
 };
 
@@ -53,13 +57,3 @@ const TableContext = createContext(tableSpecs);
 
 export const TableProvider = TableContext.Provider;
 export default TableContext;
-
-// Pattern
-// key: {
-//   title: false,
-//   url: `/`,
-//   hiddenCols: [],
-//   replace: { targetcol: { key: replace, key: replace } },
-//   newCols: { colname: hinthint },
-// requiredCols: ["name"],
-// },
