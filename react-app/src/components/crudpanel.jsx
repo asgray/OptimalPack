@@ -1,6 +1,8 @@
 import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
 import React, { useState, useContext, useEffect, useMemo } from "react";
 import TableProvider from "../context/tableContext";
+import FoodInputs from "./inputforms/foodinputs";
+import { sendRow } from "../utils/utils";
 import TableHeader from "./tableheader";
 import CRUDButtons from "./crudbuttons";
 import InputForm from "./inputform";
@@ -15,9 +17,10 @@ const CRUDPanel = () => {
   const { url, columns, title, dummyrow, keyval } = context["food"];
 
   // DATA STUFF
-  const [rows, setRows] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  const [rows, setRows] = useState([]); // rows holds info from API call
+  const [loaded, setLoaded] = useState(false); // boolean shows if API call has completed
   useEffect(() => {
+    // API call
     (async () => {
       const result = await axios.get(url);
       setRows(result.data);
@@ -25,15 +28,18 @@ const CRUDPanel = () => {
     })();
   }, [url, loaded]);
 
-  // Booleans to display modal inputs
-  const [display, setDisplay] = useState("none");
-  const [selectedRow, setSelectedRow] = useState(null);
+  // modal inputs
+  const [display, setDisplay] = useState("none"); // string determines what, if any modal panels are rendered
+  const [selectedRow, setSelectedRow] = useState(null); // saves selected row in state
+  // method rests modal panels and selections
   const cancelDisplay = () => {
     setDisplay("none");
     setSelectedRow(null);
   };
 
+  // memoize API data for table
   const data = useMemo(() => rows, [rows]);
+  // initialize all table variables
   const {
     getTableProps,
     getTableBodyProps,
@@ -60,6 +66,7 @@ const CRUDPanel = () => {
     useRowSelect,
     usePagination
   );
+  // store header props separately
   const headerProps = {
     gotoPage,
     canNextPage,
@@ -72,32 +79,57 @@ const CRUDPanel = () => {
     pageSize,
     setPageSize,
   };
+
+  const deleteRow = () => {
+    sendRow(selectedRow.original[0][keyval], "/food_delete");
+    setLoaded(false);
+  };
+
   return (
     <div className="CRUDPanel">
       <h1>{title}</h1>
+
+      {/* modal panels redndered conditionally */}
       {display === "ADD" && !selectedRow ? (
-        <>
-          <InputForm setLoaded={setLoaded} editRow={dummyrow} />
-          <input type="submit" onClick={cancelDisplay} value="Cancel" />
-        </>
+        <div className="modalpanel">
+          <InputForm
+            cancelDisplay={cancelDisplay}
+            baseRow={dummyrow}
+            setLoaded={setLoaded}
+            url="/food_insert"
+          >
+            <FoodInputs />
+          </InputForm>
+        </div>
       ) : null}
       {display === "EDIT" && selectedRow ? (
-        <>
-          <InputForm setLoaded={setLoaded} editRow={selectedRow.original} />
-          <input type="submit" onClick={cancelDisplay} value="Cancel" />
-        </>
+        <div className="modalpanel">
+          <InputForm
+            cancelDisplay={cancelDisplay}
+            baseRow={selectedRow.original}
+            setLoaded={setLoaded}
+            url="/food_update"
+          >
+            <FoodInputs />
+          </InputForm>
+        </div>
       ) : null}
       {display === "DELETE" && selectedRow ? (
-        <>
+        <div className="modalpanel">
           <DelTable
-            setLoaded={setLoaded}
             columns={columns}
             info={[selectedRow.original]}
+            deleteRow={deleteRow}
+            cancelDisplay={cancelDisplay}
           />
-          <input type="submit" onClick={cancelDisplay} value="Cancel" />
-        </>
+        </div>
       ) : null}
+
+      {/* buttons to control modal panels */}
       <CRUDButtons setDisplay={setDisplay} selectedRow={selectedRow} />
+
+      {/* data table with header and footer */}
+      {/* rendered when API call completes */}
       <TableHeader {...headerProps} />
       {loaded ? (
         <Table

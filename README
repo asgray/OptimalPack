@@ -7,8 +7,9 @@ yarn start-api -> runs flask api
 
 
 TODO:
-** InputForm needs to be polished/working
-* save place with pagination on update
+** fix Cooked Input
+* rework handleSubmit in input form to require fewer props
+* save place with pagination on update?
  - Finish DB CRUD operations
     - Create:   +
     - Read:     +

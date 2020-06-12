@@ -1,8 +1,7 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
-import { sendRow } from "../utils/utils";
 
-const DelTable = ({ columns, info, setLoaded }) => {
+const DelTable = ({ columns, info, deleteRow, cancelDisplay }) => {
   const data = useMemo(() => info, [info]);
   const {
     getTableProps,
@@ -12,7 +11,8 @@ const DelTable = ({ columns, info, setLoaded }) => {
     prepareRow,
   } = useTable({ columns, data });
   return (
-    <>
+    <div className="deltable">
+      <h3>Are You Sure Want To Delete This Row?</h3>
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -39,16 +39,10 @@ const DelTable = ({ columns, info, setLoaded }) => {
         </tbody>
       </table>
       <span>
-        <button
-          onClick={() => {
-            sendRow(info[0]["idfood"], "/food_delete");
-            setLoaded(false);
-          }}
-        >
-          Delete
-        </button>
+        <input type="submit" value="Delete" onClick={deleteRow} />
+        <input type="submit" value="Cancel" onClick={cancelDisplay} />
       </span>
-    </>
+    </div>
   );
 };
 

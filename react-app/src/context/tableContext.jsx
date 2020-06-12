@@ -1,6 +1,7 @@
 import React, { createContext } from "react";
 import CookedImg from "../assets/cookedImg";
 import UnCookedImg from "../assets/uncookedImg";
+import FoodInputs from "../components/inputforms/foodinputs";
 
 const tableSpecs = {
   //
@@ -42,14 +43,15 @@ const tableSpecs = {
     ],
 
     dummyrow: {
-      name: undefined,
-      brand: undefined,
-      weight: undefined,
-      calories: undefined,
-      protein: undefined,
-      servings: undefined,
-      cooked: undefined,
+      name: "",
+      brand: "",
+      weight: "",
+      calories: "",
+      protein: "",
+      servings: "",
+      cooked: "",
     },
+    Inputs: <FoodInputs />,
   },
 };
 
