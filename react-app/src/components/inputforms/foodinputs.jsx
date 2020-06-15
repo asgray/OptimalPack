@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Input from "../input";
+import { useEffect } from "react";
 
 const FoodInputs = ({ row, onChange }) => {
+  const [checked, setChecked] = useState(row["cooked"]);
+  useEffect(() => setChecked(row["cooked"]), [row]);
   return (
     <>
       <Input
@@ -52,12 +55,53 @@ const FoodInputs = ({ row, onChange }) => {
         example="Servings per container"
         value={row["servings"]}
       />
-      <Input
+      <label htmlFor="cooked">
+        Cooked:
+        <select
+          name="cooked"
+          id="cooked"
+          onChange={onChange}
+          value={row["cooked"]}
+        >
+          <option value="1">Yes</option>
+          <option value="0">No</option>
+        </select>
+      </label>
+      {/* <label htmlFor="cooked">
+        Cooked: Yes
+        <input
+          type="radio"
+          name="cooked"
+          onChange={onChange}
+          value={1}
+          checked={checked === 1}
+        />
+        No
+        <input
+          type="radio"
+          name="cooked"
+          onChange={onChange}
+          value={0}
+          checked={checked === 0}
+        />
+      </label> */}
+      {/* <label htmlFor="cooked">
+        Cooked:
+        <button type="button" name="cooked" onChange={onChange} value={1}>
+          Yes
+        </button>
+        <button type="button" name="cooked" onChange={onChange} value={0}>
+          No
+        </button>
+      </label> */}
+      {/* <Input
         name="cooked"
         type="radio"
         onChange={onChange}
         label="Cooked:"
         example="Yes"
+        value={1}
+        checked={row["cooked"] === 1}
       />
       <Input
         name="cooked"
@@ -65,7 +109,9 @@ const FoodInputs = ({ row, onChange }) => {
         onChange={onChange}
         label=""
         example="No"
-      />
+        value={0}
+        checked={row["cooked"] === 0}
+      /> */}
     </>
   );
 };

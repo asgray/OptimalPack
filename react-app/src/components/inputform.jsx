@@ -11,7 +11,9 @@ const InputForm = ({ children, baseRow, cancelDisplay, setLoaded, url }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    sendRow(newRow, url);
+    // sendRow(newRow, url);
+    console.log(newRow);
+
     setLoaded(false);
     cancelDisplay();
   };

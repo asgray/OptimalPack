@@ -7,7 +7,6 @@ yarn start-api -> runs flask api
 
 
 TODO:
-** fix Cooked Input
 * rework handleSubmit in input form to require fewer props
 * save place with pagination on update?
  - Finish DB CRUD operations
@@ -18,6 +17,7 @@ TODO:
  - test table with more requests
  - handle HTTP errors
  - handle DB fetch errors
+ - add error reporting
  - personalize 
 
 PROBLEMS:

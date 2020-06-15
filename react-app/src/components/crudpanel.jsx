@@ -1,7 +1,6 @@
 import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
 import React, { useState, useContext, useEffect, useMemo } from "react";
 import TableProvider from "../context/tableContext";
-import FoodInputs from "./inputforms/foodinputs";
 import { sendRow } from "../utils/utils";
 import TableHeader from "./tableheader";
 import CRUDButtons from "./crudbuttons";
@@ -14,7 +13,7 @@ import axios from "axios";
 const CRUDPanel = () => {
   // lookup specifications of table type from context
   const context = useContext(TableProvider);
-  const { url, columns, title, dummyrow, keyval } = context["food"];
+  const { url, columns, title, dummyrow, keyval, Inputs } = context["food"];
 
   // DATA STUFF
   const [rows, setRows] = useState([]); // rows holds info from API call
@@ -81,8 +80,9 @@ const CRUDPanel = () => {
   };
 
   const deleteRow = () => {
-    sendRow(selectedRow.original[0][keyval], "/food_delete");
+    sendRow(selectedRow.original[keyval], "/food_delete");
     setLoaded(false);
+    cancelDisplay();
   };
 
   return (
@@ -97,9 +97,8 @@ const CRUDPanel = () => {
             baseRow={dummyrow}
             setLoaded={setLoaded}
             url="/food_insert"
-          >
-            <FoodInputs />
-          </InputForm>
+            children={Inputs}
+          />
         </div>
       ) : null}
       {display === "EDIT" && selectedRow ? (
@@ -109,9 +108,8 @@ const CRUDPanel = () => {
             baseRow={selectedRow.original}
             setLoaded={setLoaded}
             url="/food_update"
-          >
-            <FoodInputs />
-          </InputForm>
+            children={Inputs}
+          />
         </div>
       ) : null}
       {display === "DELETE" && selectedRow ? (
@@ -120,7 +118,6 @@ const CRUDPanel = () => {
             columns={columns}
             info={[selectedRow.original]}
             deleteRow={deleteRow}
-            cancelDisplay={cancelDisplay}
           />
         </div>
       ) : null}
