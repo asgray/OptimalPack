@@ -14,6 +14,7 @@ TODO:
     - Read:     +
     - Update:   x
     - Delete:   +
+ - make CRUDPanel work with other datatypes 
  - test table with more requests
  - handle HTTP errors
  - handle DB fetch errors

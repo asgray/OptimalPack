@@ -1,5 +1,10 @@
 import React from "react";
 
+/*
+component renders the navigation controls for a react-table instance
+all props are from react-table are are used to render the table
+*/
+
 const TableHeader = ({
   gotoPage,
   canNextPage,

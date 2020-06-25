@@ -10,6 +10,21 @@ import Loading from "./loading";
 import Table from "./table";
 import axios from "axios";
 
+/*
+component maintains the state(s) necessary to display a table from the database and perform CRUD operations
+  Structure:
+    CRUDPanel - TableContext provides specific API and header parameters 
+      -- modal panels --
+        -> InputForm -> Inputs
+        -> InputForm -> Inputs
+        -> DelteTable
+      -----
+      -> CRUDButtons
+      -> TableHeader
+      -> Table
+      -> TableHeader
+*/
+
 const CRUDPanel = () => {
   // lookup specifications of table type from context
   const context = useContext(TableProvider);
@@ -79,20 +94,21 @@ const CRUDPanel = () => {
     setPageSize,
   };
 
+  // delete handler
   const deleteRow = () => {
     sendRow(selectedRow.original[keyval], "/food_delete");
     setLoaded(false);
     cancelDisplay();
   };
 
+  // INSERT or UPDATE handler
   const handleSubmit = (e, newRow, url) => {
-    console.log(newRow, url);
-
     e.preventDefault();
     sendRow(newRow, url);
     setLoaded(false);
     cancelDisplay();
   };
+
   return (
     <div className="CRUDPanel">
       <h1>{title}</h1>
@@ -127,6 +143,7 @@ const CRUDPanel = () => {
             info={[selectedRow.original]}
             deleteRow={deleteRow}
           />
+          <button onClick={cancelDisplay}>Cancel</button>
         </div>
       ) : null}
 

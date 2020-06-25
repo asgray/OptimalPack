@@ -1,5 +1,10 @@
 import React from "react";
 
+/*
+component renders data from a react-table instance
+all props are from react-table are are used to render the table
+*/
+
 const Table = ({
   getTableBodyProps,
   getTableProps,

@@ -1,6 +1,10 @@
 import React from "react";
 import Input from "../input";
 
+/*
+Inputs for the Food table, passed as a child of the InputForm component
+*/
+
 const FoodInputs = ({ row, onChange }) => {
   return (
     <>
@@ -64,51 +68,6 @@ const FoodInputs = ({ row, onChange }) => {
           <option value="0">No</option>
         </select>
       </label>
-      {/* <label htmlFor="cooked">
-        Cooked: Yes
-        <input
-          type="radio"
-          name="cooked"
-          onChange={onChange}
-          value={1}
-          checked={checked === 1}
-        />
-        No
-        <input
-          type="radio"
-          name="cooked"
-          onChange={onChange}
-          value={0}
-          checked={checked === 0}
-        />
-      </label> */}
-      {/* <label htmlFor="cooked">
-        Cooked:
-        <button type="button" name="cooked" onChange={onChange} value={1}>
-          Yes
-        </button>
-        <button type="button" name="cooked" onChange={onChange} value={0}>
-          No
-        </button>
-      </label> */}
-      {/* <Input
-        name="cooked"
-        type="radio"
-        onChange={onChange}
-        label="Cooked:"
-        example="Yes"
-        value={1}
-        checked={row["cooked"] === 1}
-      />
-      <Input
-        name="cooked"
-        type="radio"
-        onChange={onChange}
-        label=""
-        example="No"
-        value={0}
-        checked={row["cooked"] === 0}
-      /> */}
     </>
   );
 };

@@ -1,7 +1,14 @@
 import React, { useMemo } from "react";
 import { useTable } from "react-table";
 
-const DelTable = ({ columns, info, deleteRow, cancelDisplay }) => {
+/*
+component renders a single row react-table of the selected row
+columns are the same columns in the CRUDpanel
+info is the selected row object
+deleteRow is the method that handles the delete action
+*/
+
+const DelTable = ({ columns, info, deleteRow }) => {
   const data = useMemo(() => info, [info]);
   const {
     getTableProps,
@@ -38,10 +45,7 @@ const DelTable = ({ columns, info, deleteRow, cancelDisplay }) => {
           })}
         </tbody>
       </table>
-      <span>
-        <input type="submit" value="Delete" onClick={deleteRow} />
-        <input type="submit" value="Cancel" onClick={cancelDisplay} />
-      </span>
+      <input type="submit" value="Delete" onClick={deleteRow} />
     </div>
   );
 };

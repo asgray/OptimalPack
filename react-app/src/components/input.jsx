@@ -1,5 +1,9 @@
 import React from "react";
 
+/*
+component wraps normal HTML inputs
+*/
+
 const Input = ({ name, type, onChange, label, example, value }) => {
   return (
     <div className="input">
