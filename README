@@ -7,7 +7,7 @@ yarn start-api -> runs flask api
 
 
 TODO:
-* rework handleSubmit in input form to require fewer props
+** UPDATE route
 * save place with pagination on update?
  - Finish DB CRUD operations
     - Create:   +
@@ -21,7 +21,6 @@ TODO:
  - personalize 
 
 PROBLEMS:
-COOKED input is broken
 sendRow needs to accept a general row object, api should be able to parse the row
 
 NOTES:
@@ -51,5 +50,3 @@ replaced PyMySQL backend with SQLAlchemy
    cannot tell if automapper is worth it
 
 the saga of checkboxes, radio buttons, and multiselect
-
-DELETE requires only ID to be submitted

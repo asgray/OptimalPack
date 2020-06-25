@@ -1,10 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Input from "../input";
-import { useEffect } from "react";
 
 const FoodInputs = ({ row, onChange }) => {
-  const [checked, setChecked] = useState(row["cooked"]);
-  useEffect(() => setChecked(row["cooked"]), [row]);
   return (
     <>
       <Input

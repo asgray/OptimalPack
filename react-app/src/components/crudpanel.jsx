@@ -85,6 +85,14 @@ const CRUDPanel = () => {
     cancelDisplay();
   };
 
+  const handleSubmit = (e, newRow, url) => {
+    console.log(newRow, url);
+
+    e.preventDefault();
+    sendRow(newRow, url);
+    setLoaded(false);
+    cancelDisplay();
+  };
   return (
     <div className="CRUDPanel">
       <h1>{title}</h1>
@@ -93,23 +101,23 @@ const CRUDPanel = () => {
       {display === "ADD" && !selectedRow ? (
         <div className="modalpanel">
           <InputForm
-            cancelDisplay={cancelDisplay}
             baseRow={dummyrow}
-            setLoaded={setLoaded}
+            handleSubmit={handleSubmit}
             url="/food_insert"
             children={Inputs}
           />
+          <button onClick={cancelDisplay}>Cancel</button>
         </div>
       ) : null}
       {display === "EDIT" && selectedRow ? (
         <div className="modalpanel">
           <InputForm
-            cancelDisplay={cancelDisplay}
             baseRow={selectedRow.original}
-            setLoaded={setLoaded}
             url="/food_update"
             children={Inputs}
+            handleSubmit={handleSubmit}
           />
+          <button onClick={cancelDisplay}>Cancel</button>
         </div>
       ) : null}
       {display === "DELETE" && selectedRow ? (

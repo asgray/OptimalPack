@@ -49,7 +49,7 @@ const tableSpecs = {
       calories: "",
       protein: "",
       servings: "",
-      cooked: "",
+      cooked: 1,
     },
     Inputs: <FoodInputs />,
   },
