@@ -7,13 +7,8 @@ yarn start-api -> runs flask api
 
 
 TODO:
-** UPDATE route
+* new data is not automatically loaded on update
 * save place with pagination on update?
- - Finish DB CRUD operations
-    - Create:   +
-    - Read:     +
-    - Update:   x
-    - Delete:   +
  - make CRUDPanel work with other datatypes 
  - test table with more requests
  - handle HTTP errors

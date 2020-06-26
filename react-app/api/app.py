@@ -61,3 +61,10 @@ def food_delete():
     db.session.delete(target)
     db.session.commit()
     return f'Food {target_id} deleted'
+
+@app.route('/food_update', methods=['POST'])
+def food_update():
+    updated_row = request.get_json()
+    target_row = Food.query.filter_by(idfood=updated_row['idfood']).update({Food.name: updated_row['name'], Food.brand: updated_row['brand'], Food.weight: int(updated_row['weight']), Food.calories: int(updated_row['calories']), Food.protein: int(updated_row['protein']), Food.servings: int(updated_row['servings']), Food.cooked: int(updated_row['cooked'])})
+    db.session.commit()
+    return f'Food {updated_row} updated'
