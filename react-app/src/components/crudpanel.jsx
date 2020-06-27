@@ -1,6 +1,5 @@
 import { useTable, useSortBy, useRowSelect, usePagination } from "react-table";
-import React, { useState, useContext, useEffect, useMemo } from "react";
-import TableProvider from "../context/tableContext";
+import React, { useState, useEffect, useMemo } from "react";
 import { sendRow } from "../utils/utils";
 import TableHeader from "./tableheader";
 import CRUDButtons from "./crudbuttons";
@@ -25,10 +24,8 @@ component maintains the state(s) necessary to display a table from the database 
       -> TableHeader
 */
 
-const CRUDPanel = () => {
-  // lookup specifications of table type from context
-  const context = useContext(TableProvider);
-  const { url, columns, title, dummyrow, keyval, Inputs } = context["food"];
+const CRUDPanel = ({ specs }) => {
+  const { url, columns, title, dummyrow, Inputs } = specs;
 
   // DATA STUFF
   const [rows, setRows] = useState([]); // rows holds info from API call
@@ -96,7 +93,7 @@ const CRUDPanel = () => {
 
   // delete handler
   const deleteRow = () => {
-    sendRow(selectedRow.original[keyval], "/food_delete");
+    sendRow(selectedRow.original, url + "_delete");
     setLoaded(false);
     cancelDisplay();
   };
@@ -119,7 +116,7 @@ const CRUDPanel = () => {
           <InputForm
             baseRow={dummyrow}
             handleSubmit={handleSubmit}
-            url="/food_insert"
+            url={url + "_insert"}
             children={Inputs}
           />
           <button onClick={cancelDisplay}>Cancel</button>
@@ -129,7 +126,7 @@ const CRUDPanel = () => {
         <div className="modalpanel">
           <InputForm
             baseRow={selectedRow.original}
-            url="/food_update"
+            url={url + "_update"}
             children={Inputs}
             handleSubmit={handleSubmit}
           />

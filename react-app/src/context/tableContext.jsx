@@ -7,8 +7,7 @@ const tableSpecs = {
   //
   food: {
     title: "Food",
-    url: `/food`,
-    keyval: "idfood",
+    url: "/food",
     columns: [
       {
         Header: "Name",
@@ -52,6 +51,36 @@ const tableSpecs = {
       cooked: 1,
     },
     Inputs: <FoodInputs />,
+  },
+  gear: {
+    title: "Gear",
+    url: "/gear",
+    columns: [
+      {
+        Header: "Name",
+        accessor: "name",
+      },
+      {
+        Header: "Brand",
+        accessor: "brand",
+      },
+      {
+        Header: "Weight",
+        accessor: "weight",
+      },
+      {
+        Header: "Type",
+        accessor: "gear_type_type",
+      },
+    ],
+
+    dummyrow: {
+      name: "",
+      brand: "",
+      weight: "",
+      gear_type_type: "",
+    },
+    Inputs: <p>Inputs</p>,
   },
 };
 

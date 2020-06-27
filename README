@@ -17,7 +17,7 @@ TODO:
  - personalize 
 
 PROBLEMS:
-sendRow needs to accept a general row object, api should be able to parse the row
+many inputs can be negative
 
 NOTES:
 initial component structure was
