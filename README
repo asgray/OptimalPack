@@ -7,9 +7,9 @@ yarn start-api -> runs flask api
 
 
 TODO:
+Menu panel
 * new data is not automatically loaded on update
 * save place with pagination on update?
- - make CRUDPanel work with other datatypes 
  - test table with more requests
  - handle HTTP errors
  - handle DB fetch errors

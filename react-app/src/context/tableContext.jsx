@@ -2,6 +2,7 @@ import React, { createContext } from "react";
 import CookedImg from "../assets/cookedImg";
 import UnCookedImg from "../assets/uncookedImg";
 import FoodInputs from "../components/inputforms/foodinputs";
+import GearInputs from "../components/inputforms/gearinputs";
 
 const tableSpecs = {
   //
@@ -80,7 +81,7 @@ const tableSpecs = {
       weight: "",
       gear_type_type: "",
     },
-    Inputs: <p>Inputs</p>,
+    Inputs: <GearInputs />,
   },
 };
 

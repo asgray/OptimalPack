@@ -9,6 +9,7 @@ export const useGET = (url) => {
     axios.get(url).then((res) => {
       setFetchedData(res);
       setLoaded(true);
+      console.log(`${url} fetched`);
     });
   }, [url]);
   return [isLoaded, fetchedData];
