@@ -4,7 +4,16 @@ import React from "react";
 component wraps normal HTML inputs
 */
 
-const Input = ({ name, type, onChange, label, example, value }) => {
+const Input = ({
+  name,
+  type,
+  onChange,
+  label,
+  example,
+  value,
+  disabled = false,
+  required = true,
+}) => {
   return (
     <div className="input">
       <label htmlFor={name}>
@@ -12,9 +21,10 @@ const Input = ({ name, type, onChange, label, example, value }) => {
         <input
           type={type}
           name={name}
-          required="required"
+          required={required}
           onChange={onChange}
           value={value}
+          disabled={disabled}
         />
         <span> {example} </span>
       </label>

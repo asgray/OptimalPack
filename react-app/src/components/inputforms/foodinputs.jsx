@@ -57,7 +57,7 @@ const FoodInputs = ({ row, onChange }) => {
         value={row["servings"]}
       />
       <label htmlFor="cooked">
-        Cooked:
+        Cooked? :
         <select
           name="cooked"
           id="cooked"

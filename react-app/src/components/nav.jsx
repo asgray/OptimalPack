@@ -12,6 +12,9 @@ const Nav = () => {
         <Link to="/gear">
           <li>Gear</li>
         </Link>
+        <Link to="/gear_type">
+          <li>Gear Type</li>
+        </Link>
       </ul>
     </nav>
   );

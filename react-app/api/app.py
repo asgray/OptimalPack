@@ -67,6 +67,7 @@ class GearType(db.Model):
 #
 # ROUTES ----------------------------------------------------------------------------------------------------
 #
+# Food ----------------------------------------------------------------------------------------------------
 @app.route('/food')
 def food():
     foods = [{'idfood':food.idfood, 'name': food.name, 'brand': food.brand, 'weight': food.weight,
@@ -97,6 +98,7 @@ def food_update():
     db.session.commit()
     return f'Food {updated_row} updated'
 
+# Gear ----------------------------------------------------------------------------------------------------
 @app.route('/gear')
 def gear():
     gears = [{'idgear':gear.idgear, 'name': gear.name, 'brand': gear.brand, 'weight': gear.weight,'gear_type_type': gear.gear_type_type} for gear in db.session.query(Gear).all()]
@@ -125,15 +127,31 @@ def gear_update():
     db.session.commit()
     return f'Gear {updated_row} updated'
 
+# Gear Type ----------------------------------------------------------------------------------------------------
 @app.route('/gear_type')
 def gear_type():
     types = [{'type':gear_type.gear_type, 'notes': gear_type.notes} for gear_type in db.session.query(GearType).all()]
     return jsonify(types)
 
+@app.route('/gear_type_insert', methods=['POST'])
+def gear_type_insert():
+    new_row = request.get_json()
+    gear_type = GearType(gear_type=new_row['type'], notes=new_row['notes'])
+    db.session.add(gear_type)
+    db.session.commit()
+    return 'Data Saved'
+
+@app.route('/gear_type_update', methods=['POST'])
+def gear_type_update():
+    updated_row = request.get_json()
+    target_row = GearType.query.filter_by(gear_type=updated_row['type']).update({GearType.gear_type: updated_row['type'], GearType.notes: updated_row['notes']})
+    db.session.commit()
+    return f'Gear Type {updated_row} updated'
+
 @app.route('/gear_type_delete', methods=['POST'])
 def gear_type_delete():
     target_row = request.get_json()
-    target = GearType.query.filter_by(gear_type=target_row['gear_type']).first()
+    target = GearType.query.filter_by(gear_type=target_row['type']).first()
     db.session.delete(target)
     db.session.commit()
     return f'Gear Type {target_row} deleted'

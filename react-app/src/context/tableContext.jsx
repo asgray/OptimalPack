@@ -3,9 +3,9 @@ import CookedImg from "../assets/cookedImg";
 import UnCookedImg from "../assets/uncookedImg";
 import FoodInputs from "../components/inputforms/foodinputs";
 import GearInputs from "../components/inputforms/gearinputs";
+import GearTypeInputs from "../components/inputforms/geartypeinputs";
 
 const tableSpecs = {
-  //
   food: {
     title: "Food",
     url: "/food",
@@ -41,7 +41,6 @@ const tableSpecs = {
           value === 0 ? <UnCookedImg /> : <CookedImg />,
       },
     ],
-
     dummyrow: {
       name: "",
       brand: "",
@@ -53,6 +52,7 @@ const tableSpecs = {
     },
     Inputs: <FoodInputs />,
   },
+
   gear: {
     title: "Gear",
     url: "/gear",
@@ -74,7 +74,6 @@ const tableSpecs = {
         accessor: "gear_type_type",
       },
     ],
-
     dummyrow: {
       name: "",
       brand: "",
@@ -82,6 +81,26 @@ const tableSpecs = {
       gear_type_type: "",
     },
     Inputs: <GearInputs />,
+  },
+
+  gear_type: {
+    title: "Gear Type",
+    url: "/gear_type",
+    columns: [
+      {
+        Header: "Gear Type",
+        accessor: "type",
+      },
+      {
+        Header: "Description",
+        accessor: "notes",
+      },
+    ],
+    dummyrow: {
+      type: "",
+      notes: "",
+    },
+    Inputs: <GearTypeInputs />,
   },
 };
 

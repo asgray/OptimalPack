@@ -25,7 +25,7 @@ const GearInputs = ({ row, onChange }) => {
         type="text"
         onChange={onChange}
         label="Name:"
-        example="Mac and Cheese"
+        example="Atmos 65 AG"
         value={row["name"]}
       />
       <Input
@@ -33,7 +33,7 @@ const GearInputs = ({ row, onChange }) => {
         type="text"
         onChange={onChange}
         label="Brand:"
-        example="Kraft"
+        example="Osprey"
         value={row["brand"]}
       />
       <Input
@@ -41,7 +41,7 @@ const GearInputs = ({ row, onChange }) => {
         type="number"
         onChange={onChange}
         label="Weight:"
-        example="Weight (g) per serving"
+        example="Weight (g)"
         value={row["weight"]}
       />
       <label htmlFor="gear_type_type">
@@ -61,6 +61,7 @@ const GearInputs = ({ row, onChange }) => {
             );
           })}
         </select>
+        {" Backpack"}
       </label>
     </>
   );

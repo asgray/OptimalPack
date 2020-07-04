@@ -22,6 +22,7 @@ const InputForm = ({ children, baseRow, url, handleSubmit }) => {
     <div className="Inputs">
       <form onSubmit={(e) => handleSubmit(e, newRow, url)}>
         {cloneElement(children, { row: newRow, onChange: onChange })}
+        <br />
         <input type="submit" value="Submit" />
       </form>
     </div>
