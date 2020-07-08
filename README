@@ -7,7 +7,7 @@ yarn start-api -> runs flask api
 
 
 TODO:
-Menu panel
+Meal detail component
 * new data is not automatically loaded on update
 * save place with pagination on update?
  - test table with more requests

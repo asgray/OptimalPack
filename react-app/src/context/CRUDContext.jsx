@@ -104,7 +104,7 @@ const tableSpecs = {
   },
 };
 
-const TableContext = createContext(tableSpecs);
+const CRUDContext = createContext(tableSpecs);
 
-export const TableProvider = TableContext.Provider;
-export default TableContext;
+export const CRUDProvider = CRUDContext.Provider;
+export default CRUDContext;

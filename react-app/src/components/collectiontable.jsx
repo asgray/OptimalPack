@@ -5,14 +5,14 @@ component renders data from a react-table instance
 all props are from react-table are are used to render the table
 */
 
-const Table = ({
+const CollectionTable = ({
   getTableBodyProps,
   getTableProps,
   headerGroups,
   page,
   prepareRow,
-  selectedRow,
-  setSelectedRow,
+  visibleColumns,
+  renderRowSubComponent,
 }) => {
   return (
     <table {...getTableProps()}>
@@ -32,7 +32,11 @@ const Table = ({
               >
                 {column.render("Header")}
                 <span>
-                  {column.isSorted ? (column.isSortedDesc ? " 🔽" : " 🔼") : ""}
+                  {column.isSorted
+                    ? column.isSortedDesc
+                      ? " 🔽"
+                      : " 🔼"
+                    : null}
                 </span>
               </th>
             ))}
@@ -43,23 +47,22 @@ const Table = ({
         {page.map((row, i) => {
           prepareRow(row);
           return (
-            <tr
-              onClick={() => {
-                selectedRow
-                  ? selectedRow.id === row.id
-                    ? setSelectedRow(null)
-                    : setSelectedRow(row)
-                  : setSelectedRow(row);
-              }}
-              {...row.getRowProps()}
-              className={
-                selectedRow ? (row.id === selectedRow.id ? "selected" : "") : ""
-              }
-            >
-              {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-              })}
-            </tr>
+            <React.Fragment key={i}>
+              <tr {...row.getRowProps()}>
+                {row.cells.map((cell) => {
+                  return (
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  );
+                })}
+              </tr>
+              {row.isExpanded ? (
+                <tr>
+                  <td colSpan={visibleColumns.length}>
+                    {renderRowSubComponent({ row })}
+                  </td>
+                </tr>
+              ) : null}
+            </React.Fragment>
           );
         })}
       </tbody>
@@ -67,4 +70,4 @@ const Table = ({
   );
 };
 
-export default Table;
+export default CollectionTable;

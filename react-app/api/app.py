@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 # from sqlalchemy.ext.automap import automap_base
 from flask_cors import CORS
 import pymysql
@@ -64,6 +65,16 @@ class GearType(db.Model):
         self.gear_type = gear_type
         self.notes = notes
 
+class Meal(db.Model):
+    __tablename__ = 'meal'
+    name = db.Column('name', db.String(45), primary_key=True)
+    food_idfood = db.Column('food_idfood', db.Integer, primary_key=True)
+    quantity = db.Column('quantity', db.Integer, primary_key=True)
+
+    def __init__(self, name, food_idfood, quantity):
+        self.name = name
+        self.food_idfood = food_idfood
+        self.quantity = quantity
 #
 # ROUTES ----------------------------------------------------------------------------------------------------
 #
@@ -78,7 +89,8 @@ def food():
 @app.route('/food_insert', methods=['POST'])
 def food_insert():
     new_row = request.get_json()
-    food = Food(name=new_row['name'], brand=new_row['brand'], weight=int(new_row['weight']), calories=int(new_row['calories']), protein=int(new_row['protein']), servings=int(new_row['servings']), cooked=int(new_row['cooked']))
+    food = Food(name=new_row['name'], brand=new_row['brand'], weight=int(new_row['weight']), calories=int(new_row['calories']), protein=int(new_row['protein']), 
+        servings=int(new_row['servings']), cooked=int(new_row['cooked']))
     db.session.add(food)
     db.session.commit()
     return 'Data Saved'
@@ -94,7 +106,8 @@ def food_delete():
 @app.route('/food_update', methods=['POST'])
 def food_update():
     updated_row = request.get_json()
-    target_row = Food.query.filter_by(idfood=updated_row['idfood']).update({Food.name: updated_row['name'], Food.brand: updated_row['brand'], Food.weight: int(updated_row['weight']), Food.calories: int(updated_row['calories']), Food.protein: int(updated_row['protein']), Food.servings: int(updated_row['servings']), Food.cooked: int(updated_row['cooked'])})
+    target_row = Food.query.filter_by(idfood=updated_row['idfood']).update({Food.name: updated_row['name'], Food.brand: updated_row['brand'], Food.weight: int(updated_row['weight']), 
+        Food.calories: int(updated_row['calories']), Food.protein: int(updated_row['protein']), Food.servings: int(updated_row['servings']), Food.cooked: int(updated_row['cooked'])})
     db.session.commit()
     return f'Food {updated_row} updated'
 
@@ -123,7 +136,8 @@ def gear_delete():
 @app.route('/gear_update', methods=['POST'])
 def gear_update():
     updated_row = request.get_json()
-    target_row = Gear.query.filter_by(idgear=updated_row['idgear']).update({Gear.name: updated_row['name'], Gear.brand: updated_row['brand'], Gear.weight: int(updated_row['weight']), Gear.gear_type_type: updated_row['gear_type_type']})
+    target_row = Gear.query.filter_by(idgear=updated_row['idgear']).update({Gear.name: updated_row['name'], Gear.brand: updated_row['brand'], 
+        Gear.weight: int(updated_row['weight']), Gear.gear_type_type: updated_row['gear_type_type']})
     db.session.commit()
     return f'Gear {updated_row} updated'
 
@@ -155,3 +169,11 @@ def gear_type_delete():
     db.session.delete(target)
     db.session.commit()
     return f'Gear Type {target_row} deleted'
+
+# Meal ----------------------------------------------------------------------------------------------------
+@app.route('/meal')
+def meal():
+    query = db.session.query(Meal.name, func.sum(Food.weight*Meal.quantity).label('weight'), func.sum(Food.calories*Meal.quantity).label('calories'),\
+         func.sum(Food.protein*Meal.quantity).label('protein'), func.sum(Food.cooked*Meal.quantity).label('cooked')).filter(Meal.food_idfood == Food.idfood).group_by(Meal.name).all()
+    meals = [{'meal_name':row.name, 'weight': int(row.weight), 'calories': int(row.calories), 'protein': int(row.protein), 'cooked': int(row.cooked)} for row in query]
+    return jsonify(meals)

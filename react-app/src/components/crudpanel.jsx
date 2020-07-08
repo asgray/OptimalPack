@@ -6,7 +6,7 @@ import CRUDButtons from "./crudbuttons";
 import InputForm from "./inputform";
 import DelTable from "./deltable";
 import Loading from "./loading";
-import Table from "./table";
+import CRUDTable from "./crudtable";
 import axios from "axios";
 
 /*
@@ -151,7 +151,7 @@ const CRUDPanel = ({ specs }) => {
       {/* rendered when API call completes */}
       <TableHeader {...headerProps} />
       {loaded ? (
-        <Table
+        <CRUDTable
           getTableBodyProps={getTableBodyProps}
           getTableProps={getTableProps}
           headerGroups={headerGroups}
