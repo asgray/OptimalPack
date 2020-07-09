@@ -1,11 +1,11 @@
-import React, { createContext } from "react";
+import React from "react";
 import CookedImg from "../assets/cookedImg";
 import UnCookedImg from "../assets/uncookedImg";
 import FoodInputs from "../components/inputforms/foodinputs";
 import GearInputs from "../components/inputforms/gearinputs";
 import GearTypeInputs from "../components/inputforms/geartypeinputs";
 
-const tableSpecs = {
+const CRUDSpecs = {
   food: {
     title: "Food",
     url: "/food",
@@ -104,7 +104,4 @@ const tableSpecs = {
   },
 };
 
-const CRUDContext = createContext(tableSpecs);
-
-export const CRUDProvider = CRUDContext.Provider;
-export default CRUDContext;
+export default CRUDSpecs;

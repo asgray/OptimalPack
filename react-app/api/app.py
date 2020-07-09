@@ -177,3 +177,10 @@ def meal():
          func.sum(Food.protein*Meal.quantity).label('protein'), func.sum(Food.cooked*Meal.quantity).label('cooked')).filter(Meal.food_idfood == Food.idfood).group_by(Meal.name).all()
     meals = [{'meal_name':row.name, 'weight': int(row.weight), 'calories': int(row.calories), 'protein': int(row.protein), 'cooked': int(row.cooked)} for row in query]
     return jsonify(meals)
+
+@app.route('/meal_detail_<meal>', methods=['POST'])
+def meal_detail(meal):
+    query=db.session.query(Meal.quantity, Food).filter(Meal.name==meal).filter(Meal.food_idfood==Food.idfood).all()
+    foods=[{'idfood':food.idfood, 'name': food.name, 'brand': food.brand, 'weight': food.weight, 'calories': food.calories, 'protein': food.protein, 'cooked': int(food.cooked), 
+    'quantity':quantity} for quantity, food in query]
+    return jsonify(foods)

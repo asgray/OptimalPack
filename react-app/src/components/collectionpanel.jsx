@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, cloneElement } from "react";
 import { useTable, useExpanded, useSortBy, usePagination } from "react-table";
 import TableHeader from "./tableheader";
 import Loading from "./loading";
@@ -12,7 +12,10 @@ import axios from "axios";
 const CollectionPanel = ({ specs }) => {
   const { url, columns, title, Detail } = specs;
 
-  const renderRowSubComponent = React.useCallback(({ row }) => Detail, []);
+  const renderRowSubComponent = React.useCallback(
+    ({ row }) => cloneElement(Detail, { row: row.original }),
+    [Detail]
+  );
   // DATA STUFF
   const [rows, setRows] = useState([]); // rows holds info from API call
   const [loaded, setLoaded] = useState(false); // boolean shows if API call has completed
@@ -22,7 +25,6 @@ const CollectionPanel = ({ specs }) => {
       const result = await axios.get(url);
       setRows(result.data);
       setLoaded(true);
-      //   console.log(formatAggregates(rows));
     })();
   }, [url, loaded]);
 
@@ -44,7 +46,7 @@ const CollectionPanel = ({ specs }) => {
     nextPage,
     previousPage,
     setPageSize,
-    state: { pageIndex, pageSize, expanded },
+    state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
@@ -74,7 +76,6 @@ const CollectionPanel = ({ specs }) => {
   return (
     <div className="CollectionPanel">
       <h1>{title}</h1>
-      <p>{JSON.stringify(expanded)}</p>
       {/* data table with header and footer */}
       {/* rendered when API call completes */}
       <TableHeader {...headerProps} />

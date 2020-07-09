@@ -1,11 +1,16 @@
-import React, { createContext } from "react";
+import React from "react";
 import CookedImg from "../assets/cookedImg";
 import UnCookedImg from "../assets/uncookedImg";
 
 const detailSpecs = {
   meal: {
     url: "/meal_detail",
+    target: "meal_name",
     columns: [
+      {
+        Header: "Quantity",
+        accessor: "quantity",
+      },
       {
         Header: "Name",
         accessor: "name",
@@ -27,10 +32,6 @@ const detailSpecs = {
         accessor: "protein",
       },
       {
-        Header: "Servings",
-        accessor: "servings",
-      },
-      {
         Header: "Cooked",
         accessor: "cooked",
         Cell: ({ cell: { value } }) =>
@@ -40,8 +41,4 @@ const detailSpecs = {
   },
 };
 
-// const DetailContext = createContext(tableSpecs);
-
-// export const DetailProvider = DetailContext.Provider;
 export default detailSpecs;
-// export const tableSpecs

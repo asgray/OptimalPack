@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useTable, useSortBy } from "react-table";
 import Loading from "./loading";
-import CollectionTable from "./collectiontable";
 import axios from "axios";
 
 /*
 
 */
 
-const CollectionDetail = ({ specs }) => {
-  const { url, columns } = specs;
+const CollectionDetail = ({ specs, row }) => {
+  const { url, columns, target } = specs;
 
   // DATA STUFF
   const [fetchedRows, setFetchedRows] = useState([]); // rows holds info from API call
@@ -17,11 +16,11 @@ const CollectionDetail = ({ specs }) => {
   useEffect(() => {
     // API call
     (async () => {
-      const result = await axios.get(url);
+      const result = await axios.post(`${url}_${row[target]}`);
       setFetchedRows(result.data);
       setLoaded(true);
     })();
-  }, [url, loaded]);
+  }, [url, loaded, row, target]);
 
   // memoize API data for table
   const data = useMemo(() => fetchedRows, [fetchedRows]);
@@ -42,18 +41,53 @@ const CollectionDetail = ({ specs }) => {
 
   return (
     <div className="Collection">
-      CHORF
-      {/* {loaded ? (
-        <CollectionTable
-          getTableBodyProps={getTableBodyProps}
-          getTableProps={getTableProps}
-          headerGroups={headerGroups}
-          rows={rows}
-          prepareRow={prepareRow}
-        />
+      {loaded ? (
+        <table {...getTableProps()}>
+          <thead>
+            {headerGroups.map((headerGroup) => (
+              <tr {...headerGroup.getHeaderGroupProps()}>
+                {headerGroup.headers.map((column) => (
+                  <th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    className={
+                      column.isSorted
+                        ? column.isSortedDesc
+                          ? "sort-desc"
+                          : "sort-asc"
+                        : ""
+                    }
+                  >
+                    {column.render("Header")}
+                    <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? " 🔽"
+                          : " 🔼"
+                        : ""}
+                    </span>
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => {
+                    return (
+                      <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       ) : (
         <Loading />
-      )} */}
+      )}
     </div>
   );
 };

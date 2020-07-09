@@ -1,10 +1,10 @@
-import React, { createContext, useContext } from "react";
+import React from "react";
 import CookedImg from "../assets/cookedImg";
 import UnCookedImg from "../assets/uncookedImg";
 import detailSpecs from "./detailspecs";
 import CollectionDetail from "../components/collectiondetail";
 
-const tableSpecs = {
+const collectionSpecs = {
   meal: {
     title: "Meals",
     url: "/meal",
@@ -14,9 +14,6 @@ const tableSpecs = {
         Header: () => null, // No header
         id: "expander", // It needs an ID
         Cell: ({ row }) => (
-          // Use Cell to render an expander for each row.
-          // We can use the getToggleRowExpandedProps prop-getter
-          // to build the expander.
           <span {...row.getToggleRowExpandedProps()}>
             {row.isExpanded ? "👇" : "👉"}
           </span>
@@ -55,7 +52,4 @@ const tableSpecs = {
   },
 };
 
-const CollectionContext = createContext(tableSpecs);
-
-export const CollectionProvider = CollectionContext.Provider;
-export default CollectionContext;
+export default collectionSpecs;
