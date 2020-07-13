@@ -3,6 +3,7 @@ import CookedImg from "../assets/cookedImg";
 import UnCookedImg from "../assets/uncookedImg";
 import detailSpecs from "./detailspecs";
 import CollectionDetail from "../components/collectiondetail";
+import MealInputs from "../components/inputforms/mealinputs";
 
 const collectionSpecs = {
   meal: {
@@ -44,11 +45,12 @@ const collectionSpecs = {
       },
     ],
     dummyrow: {
-      name: "",
+      meal_name: "",
       food_idfood: "",
       quantity: "",
     },
     Detail: <CollectionDetail specs={detailSpecs["meal"]} />,
+    Inputs: <MealInputs />,
   },
 };
 

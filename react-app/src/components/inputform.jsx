@@ -12,7 +12,6 @@ handleSubmit is the method called when form is submitted
 
 const InputForm = ({ children, baseRow, url, handleSubmit }) => {
   const [newRow, setNewRow] = useState(baseRow);
-
   const onChange = (e) => {
     const { value, name } = e.target;
     setNewRow({ ...newRow, [name]: value });

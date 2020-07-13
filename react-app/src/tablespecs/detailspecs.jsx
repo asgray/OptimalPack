@@ -1,6 +1,7 @@
 import React from "react";
 import CookedImg from "../assets/cookedImg";
 import UnCookedImg from "../assets/uncookedImg";
+import MealInputs from "../components/inputforms/mealinputs";
 
 const detailSpecs = {
   meal: {
@@ -38,6 +39,12 @@ const detailSpecs = {
           value === 0 ? <UnCookedImg /> : <CookedImg />,
       },
     ],
+    Inputs: <MealInputs />,
+    dummyrow: {
+      meal_name: "",
+      food_idfood: "",
+      quantity: "",
+    },
   },
 };
 

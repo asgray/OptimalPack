@@ -181,6 +181,14 @@ def meal():
 @app.route('/meal_detail_<meal>', methods=['POST'])
 def meal_detail(meal):
     query=db.session.query(Meal.quantity, Food).filter(Meal.name==meal).filter(Meal.food_idfood==Food.idfood).all()
-    foods=[{'idfood':food.idfood, 'name': food.name, 'brand': food.brand, 'weight': food.weight, 'calories': food.calories, 'protein': food.protein, 'cooked': int(food.cooked), 
-    'quantity':quantity} for quantity, food in query]
+    foods=[{'idfood': food.idfood, 'name': food.name, 'brand': food.brand, 'weight': food.weight, 'calories': food.calories, 'protein': food.protein, 'cooked': int(food.cooked), 
+    'quantity': quantity} for quantity, food in query]
     return jsonify(foods)
+
+@app.route('/meal_insert', methods=['POST'])
+def meal_insert():
+    new_row = request.get_json()
+    meal = Meal(name=new_row['meal_name'], food_idfood=new_row['food_idfood'], quantity=new_row['quantity'])
+    db.session.add(meal)
+    db.session.commit()
+    return 'Data Saved'

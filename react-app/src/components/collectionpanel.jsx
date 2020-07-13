@@ -4,13 +4,15 @@ import TableHeader from "./tableheader";
 import Loading from "./loading";
 import CollectionTable from "./collectiontable";
 import axios from "axios";
+import InputForm from "./inputform";
+import { sendRow } from "../utils/utils";
 
 /*
 
 */
 
 const CollectionPanel = ({ specs }) => {
-  const { url, columns, title, Detail } = specs;
+  const { url, columns, title, Detail, Inputs, dummyrow } = specs;
 
   const renderRowSubComponent = React.useCallback(
     ({ row }) => cloneElement(Detail, { row: row.original }),
@@ -73,6 +75,20 @@ const CollectionPanel = ({ specs }) => {
     setPageSize,
   };
 
+  // modal inputs
+  const [display, setDisplay] = useState("none"); // string determines what, if any modal panels are rendered
+  // method rests modal panels and selections
+  const cancelDisplay = () => {
+    setDisplay("none");
+  };
+
+  const handleSubmit = (e, newRow, url) => {
+    e.preventDefault();
+    sendRow(newRow, url);
+    setLoaded(false);
+    cancelDisplay();
+  };
+
   return (
     <div className="CollectionPanel">
       <h1>{title}</h1>
@@ -93,6 +109,19 @@ const CollectionPanel = ({ specs }) => {
         <Loading />
       )}
       <TableHeader {...headerProps} />
+      {display === "ADD" ? (
+        <div className="modalpanel">
+          <InputForm
+            baseRow={dummyrow}
+            url={`${url}_insert`}
+            children={Inputs}
+            handleSubmit={handleSubmit}
+          />
+          <button onClick={cancelDisplay}>Cancel</button>
+        </div>
+      ) : (
+        <button onClick={() => setDisplay("ADD")}>Add New Meal</button>
+      )}
     </div>
   );
 };

@@ -7,9 +7,9 @@ yarn start-api -> runs flask api
 
 
 TODO:
- * Collection ADD/REMOVE
+ * Collection REMOVE
  * use useGet hook?
- * consolidate Collectionspecs and detailspecs?
+ * consolidate Collectionspecs and detailspecs
  - style expanded table
  - new data is not automatically loaded on update
  - save place with pagination on update?
